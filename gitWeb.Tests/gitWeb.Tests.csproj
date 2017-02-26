@@ -123,6 +123,7 @@
     <Compile Include="RepositoryPathValdiator.cs" />
     <Compile Include="StageProviderShould.cs" />
     <Compile Include="StatusProviderShould.cs" />
+    <Compile Include="TestFixtureBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

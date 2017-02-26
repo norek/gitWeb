@@ -51,7 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Features\Clone\GitRepositoryProvider.cs" />
     <Compile Include="Features\Commit\CommitProvider.cs" />
+    <Compile Include="Features\Configuration\GitConfigurationProvider.cs" />
+    <Compile Include="Features\Configuration\IConfigurationRepository.cs" />
+    <Compile Include="Features\Configuration\RepositoryPathValdiator.cs" />
     <Compile Include="Features\Stage\StagingAreaProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Features\Status\StatusProvider.cs" />
@@ -59,9 +63,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Features\Settings\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

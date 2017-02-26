@@ -6,6 +6,8 @@ using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
 using gitWeb.Controllers;
+using gitWeb.Core;
+using gitWeb.Core.Features.Configuration;
 
 namespace gitWeb
 {

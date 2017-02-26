@@ -1,31 +1,18 @@
-﻿using System;
-using System.Web.Configuration;
+﻿using System.Web.Configuration;
+using gitWeb.Core.Features.Configuration;
 
 namespace gitWeb
 {
-    public class GitConfigurationProvider
+    public class WebConfig : IConfigurationRepository
     {
-        private readonly RepositoryPathValdiator _repositoryPathValdiator;
         private static string _repositoryPathSection = "repositoryPath";
 
-        public GitConfigurationProvider(RepositoryPathValdiator repositoryPathValdiator)
+        public void SavePath(string path)
         {
-            _repositoryPathValdiator = repositoryPathValdiator;
-        }
-
-        public bool SaveRepositoryPath(string path)
-        {
-            if (_repositoryPathValdiator.IsInvalid(path))
-            {
-                return false;
-            }
-
             WebConfigurationManager.AppSettings[_repositoryPathSection] = path;
-
-            return true;
         }
 
-        public string LoadRepositoryPath()
+        public string LoadPath()
         {
             return WebConfigurationManager.AppSettings[_repositoryPathSection];
         }

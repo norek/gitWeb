@@ -1,7 +1,7 @@
 using System.IO;
 using System.Linq;
 
-namespace gitWeb
+namespace gitWeb.Core.Features.Configuration
 {
     public class RepositoryPathValdiator
     {
