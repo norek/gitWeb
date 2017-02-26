@@ -36,7 +36,5 @@ namespace gitWeb.Tests
 
             Assert.Throws<ArgumentException>(() => provider.UnStage(null));
         }
-
-
     }
 }
