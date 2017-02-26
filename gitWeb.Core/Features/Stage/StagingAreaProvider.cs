@@ -8,12 +8,14 @@ using LibGit2Sharp;
 
 namespace gitWeb.Core.Features.Stage
 {
-    class StagingAreaProvider
+    public class StagingAreaProvider
     {
         private readonly IRepository _repository;
 
         public StagingAreaProvider(IRepository repository)
         {
+            if (repository == null) throw new ArgumentException(nameof(repository));
+
             _repository = repository;
         }
 

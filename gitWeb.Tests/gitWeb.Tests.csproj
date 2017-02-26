@@ -120,6 +120,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryPathValdiator.cs" />
+    <Compile Include="StageProviderShould.cs" />
     <Compile Include="StatusProviderShould.cs" />
   </ItemGroup>
   <ItemGroup>
