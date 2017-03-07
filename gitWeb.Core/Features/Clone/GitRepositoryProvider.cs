@@ -14,22 +14,19 @@ namespace gitWeb.Core.Features.Clone
 
         public GitRepositoryProvider(GitConfigurationProvider repositorySettingsProvider)
         {
+            if (repositorySettingsProvider == null) throw new ArgumentNullException(nameof(repositorySettingsProvider));
+
             _repositorySettingsProvider = repositorySettingsProvider;
         }
 
         public void Clone(string url, string path)
         {
             if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(url));
-            if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(path));
+            if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
 
             string repoPath = Repository.Clone(url, path);
 
             _repositorySettingsProvider.SaveRepositoryPath(repoPath);
-        }
-
-        public void Init()
-        {
-
         }
     }
 }

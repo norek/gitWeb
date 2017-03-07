@@ -15,14 +15,14 @@ namespace gitWeb
     {
         protected void Application_Start()
         { 
-            var builder = new ContainerBuilder();
-            builder.RegisterType<GitConfigurationProvider>();
-            builder.RegisterType<RepositoryPathValdiator>();
-            builder.RegisterControllers(typeof(MvcApplication).Assembly);
+            //var builder = new ContainerBuilder();
+            //builder.RegisterType<GitConfigurationProvider>();
+            //builder.RegisterType<RepositoryPathValdiator>();
+            //builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
-            // Set the dependency resolver to be Autofac.
-            var container = builder.Build();
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            //// Set the dependency resolver to be Autofac.
+            //var container = builder.Build();
+            //DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);

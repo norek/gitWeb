@@ -10,7 +10,6 @@ using gitWeb.Models;
 
 namespace gitWeb.Controllers
 {
-    [Authorize]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;

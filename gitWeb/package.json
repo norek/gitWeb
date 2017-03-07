@@ -1,0 +1,14 @@
+{
+  "name": "gitweb",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Norek",
+  "license": "ISC",
+  "devDependencies": {
+    "vue": "^2.2.1"
+  }
+}

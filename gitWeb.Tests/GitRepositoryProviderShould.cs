@@ -26,7 +26,7 @@ namespace gitWeb.Tests
         [InlineData(null)]
         public void WhenCloning_ThrowAnArgumentExceptionWhen_PathIsEmpty(string path)
         {
-            var configMock = NSubstitute.Substitute.For<GitConfigurationProvider>();
+            var configMock = NSubstitute.Substitute.For<GitConfigurationProvider>(null,null);
             GitRepositoryProvider provider = new GitRepositoryProvider(configMock);
             Assert.Throws<ArgumentNullException>(() => provider.Clone(path, "somePath"));
         }
@@ -36,7 +36,7 @@ namespace gitWeb.Tests
         [InlineData(null)]
         public void WhenCloning_ThrowAnArgumentExceptionWhen_UrlIsEmpty(string url)
         {
-            var configMock = NSubstitute.Substitute.For<GitConfigurationProvider>();
+            var configMock = NSubstitute.Substitute.For<GitConfigurationProvider>(null, null);
             GitRepositoryProvider provider = new GitRepositoryProvider(configMock);
             Assert.Throws<ArgumentNullException>(() => provider.Clone("somePath", url));
         }
