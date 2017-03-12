@@ -5,7 +5,7 @@
             <thead>
             </thead>
             <tbody>
-                <tr v-for="file in files">
+                <tr v-for="file in unstagedFiles">
                     <td>{{file.name}}</td>
                     <td>{{file.status}}</td>
                     <td><button v-on:click="stageFile(file)">+</button></td>
@@ -16,16 +16,25 @@
 </template>
 
 <script>
+
     export default {
         data() {
             return {
-                files: [{ name: "./shared/variables.scss", status: "1" }, { name: "./y1/variables.scss", status: "2" }, { name: "./shared/33.scss", status: "1" }, { name: "sdsdsd", status: "1" },]
+                loading : true
+            }
+        },
+        computed:{
+            unstagedFiles() {
+                return this.$store.state.unstagedFiles
             }
         },
         methods: {
             stageFile: function(file){
-                alert(file.name);
+                this.$store.dispatch("stageFileAsync",{file:file.name});
             }
+        },
+        beforeMount() {
+            console.log("before mount");
         }
     }
 

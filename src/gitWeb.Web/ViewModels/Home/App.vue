@@ -28,6 +28,9 @@
             <div class="row">
               <commitDetails></commitDetails>
             </div>
+            <div class="row">
+              <fileChanges></fileChanges>
+            </div>
           </div>
         </div>
       </div>
@@ -41,19 +44,18 @@ import unstagedFiles from './components/unstagedFiles.vue'
 import stagedFiles from './components/stagedFiles.vue'
 import commitForm from './components/commitForm.vue'
 import commitDetails from './components/commitDetails.vue'
+import fileChanges from './components/fileChanges.vue'
 
 export default {
   components: { 
     'unstagedFiles': unstagedFiles,
     'stagedFiles': stagedFiles, 
     'commitDetails': commitDetails, 
+    'fileChanges': fileChanges, 
     'commitForm': commitForm },
-  data () {
-    return {
-      msg: 'Hello world!'
-    }
-  }
-}
+  methods:{
+  }}
+
 </script>
 
 <style lang="scss">
