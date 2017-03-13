@@ -26,7 +26,7 @@
         },
         computed:{
             unstagedFiles() {
-                return this.$store.state.unstagedFiles = [];
+                return this.$store.state.unstagedFiles;
             }
         },
         methods: {
@@ -37,7 +37,7 @@
         },
         beforeMount() {
             console.log("before mount");
-            this.$store.state.unstagedFiles = [];
+            this.$store.dispatch(types.FETCH_UNSTAGED_FILES);
         }
     }
 
