@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import App from './App.vue';
 import Vuex from 'vuex';
-import store from './store/basic.js'
+import store from './store/index.js'
 
 
-const vm = new Vue({
+new Vue({
     store,
     el: '#app',
     render: h => h(App)

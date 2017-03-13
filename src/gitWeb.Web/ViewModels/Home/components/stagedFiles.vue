@@ -5,10 +5,10 @@
             <thead>
             </thead>
             <tbody>
-                <tr v-for="file in files">
+                <tr v-for="file in stagedFiles">
                     <td>{{file.name}}</td>
                     <td>{{file.status}}</td>
-                    <td><button>+</button></td>
+                    <td><button v-on:click="unStageFile(file)">+</button></td>
                 </tr>
             </tbody>
         </table>
@@ -16,11 +16,23 @@
 </template>
 
 <script>
+
+    import * as types from '../store/types'
+    
     export default {
-        data() {
-            return {
-                files: []
+         computed:{
+            stagedFiles() {
+                return this.$store.state.stagedFiles
             }
+        },
+        methods: {
+            unStageFile: function(file){
+                this.$store.dispatch(types.UNSTAGE_FILE,{file:file});
+            }
+        },
+        beforeMount() {
+            console.log("before mount");
+            this.$store.dispatch(types.FETCH_STAGED_FILES);
         }
     }
 

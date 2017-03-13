@@ -16,6 +16,7 @@
 </template>
 
 <script>
+    import * as types from '../store/types'
 
     export default {
         data() {
@@ -25,16 +26,18 @@
         },
         computed:{
             unstagedFiles() {
-                return this.$store.state.unstagedFiles
+                return this.$store.state.unstagedFiles = [];
             }
         },
         methods: {
             stageFile: function(file){
-                this.$store.dispatch("stageFileAsync",{file:file.name});
+                console.log(file.name);
+                this.$store.dispatch(types.STAGE_FILE, file);
             }
         },
         beforeMount() {
             console.log("before mount");
+            this.$store.state.unstagedFiles = [];
         }
     }
 
