@@ -56,7 +56,13 @@
     <Compile Include="Features\Configuration\GitConfigurationProvider.cs" />
     <Compile Include="Features\Configuration\IConfigurationRepository.cs" />
     <Compile Include="Features\Configuration\RepositoryPathValdiator.cs" />
+    <Compile Include="Features\Stage\FileChangeProvider.cs" />
     <Compile Include="Features\Stage\StagingAreaProvider.cs" />
+    <Compile Include="Formatters\ChanageContentFormatter.cs" />
+    <Compile Include="Formatters\Hunk.cs" />
+    <Compile Include="Formatters\HunkHeaderParser.cs" />
+    <Compile Include="Formatters\HunkLinePair.cs" />
+    <Compile Include="Formatters\Line.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Features\Status\StatusProvider.cs" />
   </ItemGroup>

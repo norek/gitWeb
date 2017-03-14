@@ -44,7 +44,7 @@ label {
 input {
   height: 2em;
   font-size: 1em;
-  padding-left: .4em;
+    padding-left: .4em;
 }
 button {
   margin-top: 20px;

@@ -26,9 +26,6 @@
               <commitForm></commitForm>
             </div>
             <div class="row">
-              <commitDetails></commitDetails>
-            </div>
-            <div class="row">
               <fileChanges></fileChanges>
             </div>
           </div>

@@ -26,17 +26,17 @@
         },
         computed:{
             unstagedFiles() {
-                return this.$store.state.unstagedFiles;
+                console.log('sdxsd');
+                return this.$store.state.stagingArea.unstagedFiles;
             }
         },
         methods: {
             stageFile: function(file){
-                console.log(file.name);
-                this.$store.dispatch(types.STAGE_FILE, file);
+                // console.log(file.name);
+                // this.$store.dispatch(types.STAGE_FILE, file);
             }
         },
         beforeMount() {
-            console.log("before mount");
             this.$store.dispatch(types.FETCH_UNSTAGED_FILES);
         }
     }

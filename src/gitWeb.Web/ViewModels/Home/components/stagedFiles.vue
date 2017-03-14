@@ -22,16 +22,15 @@
     export default {
          computed:{
             stagedFiles() {
-                return this.$store.state.stagedFiles
+                return this.$store.state.stagingArea.stagedFiles
             }
         },
         methods: {
             unStageFile: function(file){
-                this.$store.dispatch(types.UNSTAGE_FILE,{file:file});
+                // this.$store.dispatch(types.UNSTAGE_FILE,{file:file});
             }
         },
         beforeMount() {
-            console.log("before mount");
             this.$store.dispatch(types.FETCH_STAGED_FILES);
         }
     }
