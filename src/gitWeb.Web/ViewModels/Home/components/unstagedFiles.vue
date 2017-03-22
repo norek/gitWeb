@@ -18,10 +18,12 @@
 <script>
     import * as types from '../store/types'
 
+import axios from 'axios'
+
     export default {
         data() {
             return {
-                loading : true
+                tasks : []
             }
         },
         computed:{
@@ -33,10 +35,21 @@
         methods: {
             stageFile: function(file){
                 // console.log(file.name);
+ var self = this;
+                  axios.get('/api/File')
+            .then(function (response) {
+                self.tasks.push('sd')   
+     
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+
                 // this.$store.dispatch(types.STAGE_FILE, file);
             }
         },
         beforeMount() {
+            // this.loading = true;
             this.$store.dispatch(types.FETCH_UNSTAGED_FILES);
         }
     }

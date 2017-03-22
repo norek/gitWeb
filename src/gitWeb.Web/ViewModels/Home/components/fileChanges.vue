@@ -1,7 +1,7 @@
 <template>
 <div class="panelBlade">
 	<div class="rightPanelHeader">
-		<label>actions.js</label>
+		<label>CHANGES DETAILS</label>
 	</div>
 	<div class="hunk" v-for="change in changes.hunks">
 		<div class="hunkHeader">

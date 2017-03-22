@@ -6,8 +6,12 @@ $panel-secondary-color:#636370;
 
 .panelBlade {
   color: $primary-color;
-  margin: 0.7em; 
-   background-color: #43484B;}
+  margin-top: 0.7em; 
+  margin-bottom: 0.7em; 
+   background-color: #43484B;
+   border: none;
+   border-radius: 0px;
+   }
   .panelBlade .rightPanelHeader {
     font-size: 1.4em !important;
     padding: 0.5em;

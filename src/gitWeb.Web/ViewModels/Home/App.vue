@@ -2,7 +2,7 @@
 <template>
 
    <div class="container-fluid">
-      <nav class="navbar navbar-default">
+      <nav class="navbar navbar-default panelBlade">
         <div class="container-fluid">
           <div class="navbar-header">
             <a class="navbar-brand" href="#">
@@ -11,21 +11,18 @@
           </div>
         </div>
       </nav>
-        <div class="row">
-          <div class="col-md-8">
-          <p> graph </P>
+        <div class="row no-gutter">
+          <div class="col-md-2">
+            <branches></branches>
+            <tags></tags>
+          </div>
+          <div class="col-md-6">
+            <graph></graph>
           </div>
           <div class="col-md-4">
-            <div class="row">
               <unstagedFiles></unstagedFiles>
-            </div>
-            <div class="row">
               <stagedFiles></stagedFiles>
-            </div>
-            <div class="row">
               <commitForm></commitForm>
-            </div>
-            <div class="row">
               <fileChanges></fileChanges>
             </div>
           </div>
@@ -42,6 +39,9 @@ import stagedFiles from './components/stagedFiles.vue'
 import commitForm from './components/commitForm.vue'
 import commitDetails from './components/commitDetails.vue'
 import fileChanges from './components/fileChanges.vue'
+import graph from './components/graph.vue'
+import branches from './components/branches.vue'
+import tags from './components/tags.vue'
 
 export default {
   components: { 
@@ -49,9 +49,11 @@ export default {
     'stagedFiles': stagedFiles, 
     'commitDetails': commitDetails, 
     'fileChanges': fileChanges, 
-    'commitForm': commitForm },
+    'commitForm': commitForm ,
+    graph,branches,tags},
   methods:{
   }}
+
 
 </script>
 
@@ -59,8 +61,6 @@ export default {
 @import './shared/variables.scss';
 
 $font-stack:    Helvetica, sans-serif;
-
-
 
 body {
   font: 100% $font-stack;

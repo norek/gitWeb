@@ -1,0 +1,40 @@
+<template>
+    <div class="panelBlade">
+         <div class="rightPanelHeader"> <label>GRAPH</label> </div>
+        <div class="graphgit">
+        </div>
+    </div>
+</template>
+
+<script>
+
+    import * as types from '../store/types'
+    import * as graphAPI from '../api/graph'
+    import * as graphBuilder from '../features/graphBuilder'
+    
+    export default {
+        mounted(){
+            this.$nextTick(function () {
+        var elements = graphBuilder.build(graphAPI);
+                graphBuilder.draw(elements.nodes,elements.links,elements.data);
+        })  
+        }
+    }
+
+
+</script>
+
+<style lang="scss">
+    @import '../shared/variables.scss';
+
+    @import '../shared/graph.scss';
+    
+    .graphgit{
+       height: 100%;
+       width: 100%
+    }
+
+
+</style>
+
+
