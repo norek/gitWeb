@@ -1,40 +1,42 @@
 <template>
-    <div class="panelBlade">
-         <div class="rightPanelHeader"> <label>GRAPH</label> </div>
-        <div class="graphgit">
-        </div>
-    </div>
+<div class="panelBlade">
+    <div class="rightPanelHeader"> <label>GRAPH</label> </div>
+    <svg class="graphgit">
+
+    </svg>
+</div>
 </template>
 
 <script>
 
-    import * as types from '../store/types'
-    import * as graphAPI from '../api/graph'
-    import * as graphBuilder from '../features/graphBuilder'
-    
-    export default {
-        mounted(){
-            this.$nextTick(function () {
-        var elements = graphBuilder.build(graphAPI);
-                graphBuilder.draw(elements.nodes,elements.links,elements.data);
-        })  
-        }
-    }
+import * as types from '../store/types'
+import * as graphAPI from '../api/graph'
+import * as graphBuilder from '../features/graphBuilder'
 
+export default {
+
+    mounted() {
+        this.$nextTick(function() {
+
+            console.log("xxx");
+            var elements = graphBuilder.build(graphAPI);
+            graphBuilder.draw(elements.nodes, elements.links);
+            graphBuilder.onCommitClick(commitClick);
+        })
+    }
+}
+
+function commitClick(commitInfo){
+  alert(commitInfo.Sha);
+}
 
 </script>
 
 <style lang="scss">
-    @import '../shared/variables.scss';
+@import '../shared/variables.scss';
+@import '../shared/graph.scss';
 
-    @import '../shared/graph.scss';
-    
-    .graphgit{
-       height: 100%;
-       width: 100%
-    }
-
-
-</style>
-
-
+.graphgit {
+    height: 100%;
+    width: 100%;
+}</style>
