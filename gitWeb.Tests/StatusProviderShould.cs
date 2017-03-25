@@ -34,10 +34,5 @@ namespace gitWeb.Tests
 
             repository.Received().RetrieveStatus(filePath);
         }
-
-        public void test()
-        {
-            FileChangeProvider
-        }
     }
 }

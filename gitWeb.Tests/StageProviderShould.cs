@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using gitWeb.Core.Features.Stage;
 using LibGit2Sharp;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xunit;
 using Assert = Xunit.Assert;
 
@@ -13,6 +12,13 @@ namespace gitWeb.Tests
 {
     public class StageProviderShould
     {
+        IRepository _repo;
+
+        public StageProviderShould()
+        {
+            _repo = NSubstitute.Substitute.For<IRepository>();
+        }
+
         [Fact]
         public void ThrowAnException_WhenCtorParamIsNull()
         {
