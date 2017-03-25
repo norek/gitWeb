@@ -21,11 +21,6 @@
 import axios from 'axios'
 
     export default {
-        data() {
-            return {
-                tasks : []
-            }
-        },
         computed:{
             unstagedFiles() {
                 console.log('sdxsd');
@@ -38,8 +33,8 @@ import axios from 'axios'
  var self = this;
                   axios.get('/api/File')
             .then(function (response) {
-                self.tasks.push('sd')   
-     
+                self.tasks.push('sd')
+
             })
             .catch(function (error) {
               console.log(error);

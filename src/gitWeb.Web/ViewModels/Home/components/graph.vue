@@ -12,10 +12,11 @@
 import * as types from '../store/types'
 import * as graphAPI from '../api/graph'
 import * as graphBuilder from '../features/graphBuilder'
-
+var store;
 export default {
 
     mounted() {
+        store = this.$store;
         this.$nextTick(function() {
 
             console.log("xxx");
@@ -27,7 +28,7 @@ export default {
 }
 
 function commitClick(commitInfo){
-  alert(commitInfo.Sha);
+  store.dispatch("SET_CURRENT_COMMIT",commitInfo)
 }
 
 </script>

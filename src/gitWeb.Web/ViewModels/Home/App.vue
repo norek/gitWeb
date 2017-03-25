@@ -21,9 +21,10 @@
           </div>
           <div class="col-md-4">
               <unstagedFiles></unstagedFiles>
-              <stagedFiles></stagedFiles>
+              <!-- <stagedFiles></stagedFiles>
               <commitForm></commitForm>
-              <fileChanges></fileChanges>
+              <fileChanges></fileChanges> -->
+              <commitDetails></commitDetails>
             </div>
           </div>
         </div>
@@ -44,11 +45,11 @@ import branches from './components/branches.vue'
 import tags from './components/tags.vue'
 
 export default {
-  components: { 
+  components: {
     'unstagedFiles': unstagedFiles,
-    'stagedFiles': stagedFiles, 
-    'commitDetails': commitDetails, 
-    'fileChanges': fileChanges, 
+    'stagedFiles': stagedFiles,
+    'commitDetails': commitDetails,
+    'fileChanges': fileChanges,
     'commitForm': commitForm ,
     graph,branches,tags},
   methods:{
