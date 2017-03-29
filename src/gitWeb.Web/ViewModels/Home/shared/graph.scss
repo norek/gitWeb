@@ -2,19 +2,26 @@
 .commit-dot {
 	fill: silver;
 	stroke: black;
+
 	stroke-width:2px;
-
-
+	&.openCommit{
+		fill:white;
+		stroke-width:0.9px;
+	}
 }
 
 .commit-link {
 		stroke-width:2px;
 }
 
-
 .commit-label {
-	color: white !important;
+	 color: white !important;
 	 font-size: 1.1em !important;
+
+	 &.openCommit{
+ 		font-weight: bold;
+ 	}
+
 }
 
 .graphgit {

@@ -10,3 +10,6 @@ export const UNSTAGE_FILE = "UNSTAGE_FILE";
 export const APPLY_UNSTAGED_FILES = "APPLY_UNSTAGED_FILES"
 export const APPLY_STAGED_FILES = "APPLY_STAGED_FILES"
 
+//commitArea types
+//mutations
+export const CLEAR_SELECTED_COMMIT = "CLEAR_SELECTED_COMMIT";

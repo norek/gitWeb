@@ -12,7 +12,6 @@
             <tr v-for="file in details.files">
                 <td>{{file.path}}</td>
                 <td>{{file.changeType}}</td>
-                <td><button>+</button></td>
             </tr>
         </tbody>
     </table>

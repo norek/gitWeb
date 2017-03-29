@@ -1,12 +1,16 @@
 import * as commitApi from '../../api/commitApi';
 
+function createEmptyCommit(){
+  return {
+      Sha: "",
+      message: "",
+      author: "",
+      date: ""
+  }
+}
+
 const state = {
-    selectedCommit : {
-        Sha: "",
-        message: "",
-        author: "",
-        date: ""
-    },
+    selectedCommit : createEmptyCommit(),
     selectedCommitDetails : {}
 }
 
@@ -29,6 +33,10 @@ const mutations = {
   },
   setCurrentCommitDetails(state,details){
     state.selectedCommitDetails = details;
+  },
+  CLEAR_SELECTED_COMMIT(state){
+    state.selectedCommit = createEmptyCommit();
+    state.selectedCommitDetails = [];
   }
 }
 

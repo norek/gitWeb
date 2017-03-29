@@ -28,7 +28,12 @@ export default {
 }
 
 function commitClick(commitInfo){
-  store.dispatch("SET_CURRENT_COMMIT",commitInfo)
+
+  if(commitInfo.openCommit){
+    store.commit(types.CLEAR_SELECTED_COMMIT);
+  }else{
+    store.dispatch("SET_CURRENT_COMMIT",commitInfo)
+  }
 }
 
 </script>

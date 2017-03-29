@@ -6,14 +6,14 @@ $panel-secondary-color:#636370;
 
 .panelBlade {
   color: $primary-color;
-  margin-top: 0.7em; 
-  margin-bottom: 0.7em; 
+  margin-top: 0.7em;
+  margin-bottom: 0.7em;
    background-color: #43484B;
    border: none;
    border-radius: 0px;
    }
   .panelBlade .rightPanelHeader {
-    font-size: 1.4em !important;
+    font-size: 1.0em !important;
     padding: 0.5em;
     background-color:$panel-header-color; }
     .panelBlade .rightPanelHeader label {
@@ -23,7 +23,7 @@ $panel-secondary-color:#636370;
       float: right; }
   .panelBlade table {
     width: 100%;
-   
+
     border: none;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;

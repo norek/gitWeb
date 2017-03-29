@@ -1,5 +1,9 @@
 import * as graphHelper from './graphHelpers.js';
 
+function Node(x,y){
+  return new {x:x,y:y};
+}
+
 export function build(graphDataService) {
     var data = graphDataService.getTree(null);
 
@@ -10,7 +14,7 @@ export function build(graphDataService) {
         c.id = i++;
         c.column = 0;
         c.x = 0;
-        c.y = 20 + c.id * 22
+        c.y = 40 + c.id * 22
     });
 
     function setCommitPosition() {
@@ -179,6 +183,10 @@ export function build(graphDataService) {
         }
     }
 
+    nodes.unshift({  Sha: 'uncommited changes',
+      x: 20,
+      y: 18,Orig:true,openCommit:true});
+
     return {
         nodes,
         links,
@@ -194,6 +202,7 @@ export function draw(nodes, links) {
         .data(nodes.filter((d) => d.Orig === true))
         .enter()
         .append("g")
+        .attr("id",(d) => {return d.Sha})
         .attr("cursor", "pointer");
 
     var rect = groups
@@ -209,7 +218,13 @@ export function draw(nodes, links) {
         .attr("r", 5)
         .attr("cx", (d) => {return d.x})
         .attr("cy", (d) => {return d.y})
-        .classed("commit-dot", true);
+        .attr("class", (d) => {
+          if(d.openCommit){
+            return "commit-dot openCommit";
+          }
+
+          return "commit-dot";
+        });
 
 
     var labels = groups
@@ -217,7 +232,13 @@ export function draw(nodes, links) {
         .text((d) =>{return d.Sha})
         .attr("x", (d) => {return 140})
         .attr("y", (d) => {return d.y + 5})
-        .classed("commit-label", true);
+        .attr("class", (d) => {
+          if(d.openCommit){
+            return "commit-label openCommit";
+          }
+
+          return "commit-label";
+        });
 
     var links = svg.selectAll("link")
         .data(links)
@@ -241,7 +262,7 @@ export function draw(nodes, links) {
             return graphHelper.pickupColor(d.nodeColumn);
         })
         .classed("commit-link", true)
-    
+
     groups.on("mouseover", function(d) {
         var el = d3.select(this);
         el.select("text").classed("selected", true);
