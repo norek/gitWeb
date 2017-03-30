@@ -156,6 +156,7 @@
     <Compile Include="Api\CommitController.cs" />
     <Compile Include="Api\FileChangesController.cs" />
     <Compile Include="Api\FileController.cs" />
+    <Compile Include="Api\RepositoryController.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
