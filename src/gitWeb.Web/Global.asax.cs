@@ -42,7 +42,7 @@ namespace gitWeb.Web
             builder.RegisterType<CommitProvider>().As<ICommitProvider>();
             builder.RegisterType<StagingAreaProvider>().As<IStagingAreaProvider>();
             builder.RegisterType<RepositoryFactory>().AsSelf();    
-            builder.Register(c => c.Resolve<RepositoryFactory>().GetRepository());
+            builder.Register(c => c.Resolve<RepositoryFactory>().GetRepository()).SingleInstance();
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

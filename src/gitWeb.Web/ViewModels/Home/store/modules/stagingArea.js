@@ -19,16 +19,16 @@ const getters = {
 }
 
 const actions = {
-    UNSTAGE_FILE({ dispatch }, file) {
+    UNSTAGE_FILE({ dispatch }, filePath) {
         stagingAPI
-            .unStageFile(file)
+            .unStageFile(filePath)
             .then(() => {
                 dispatch(types.FETCH_REPOSITORY_STATUS);
             });
     },
-    STAGE_FILE({ dispatch }, file) {
+    STAGE_FILE({ dispatch }, filePath) {
         stagingAPI
-            .stageFile(file)
+            .stageFile(filePath)
             .then(() => {
                 dispatch(types.FETCH_REPOSITORY_STATUS);
             });

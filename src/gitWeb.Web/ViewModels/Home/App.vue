@@ -68,8 +68,6 @@ export default {
 
 <style lang="scss">@import './shared/variables.scss';
 
-$font-stack: Helvetica, sans-serif;
-
 body {
     font: 100% $font-stack;
     color: $primary-color;

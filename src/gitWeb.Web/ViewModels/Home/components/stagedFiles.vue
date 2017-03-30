@@ -26,7 +26,7 @@ export default {
     },
     methods: {
         unStageFile: function(file) {
-            this.$store.dispatch(types.UNSTAGE_FILE, file);
+            this.$store.dispatch(types.UNSTAGE_FILE, file.filePath);
         }
     }
 }
