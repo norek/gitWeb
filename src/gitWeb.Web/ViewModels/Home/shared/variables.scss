@@ -3,6 +3,13 @@ $primary-back-color: #303030;
 $panel-header-color:#555555;
 $panel-secondary-color:#636370;
 
+#main{
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+
 
 .panelBlade {
   color: $primary-color;

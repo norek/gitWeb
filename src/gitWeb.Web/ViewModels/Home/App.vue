@@ -1,32 +1,35 @@
 // app.vue
 <template>
-<div class="container-fluid">
-    <nav class="navbar navbar-default panelBlade">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">
-                    <label>gitWeb</label>
-                </a>
+<div id="main">
+
+    <div class="container-fluid">
+        <nav class="navbar navbar-default panelBlade">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <label>gitWeb</label>
+                    </a>
+                </div>
             </div>
-        </div>
-    </nav>
-    <div class="row no-gutter">
-        <div class="col-md-2">
-            <branches></branches>
-            <tags></tags>
-        </div>
-        <div class="col-md-6">
-            <graph></graph>
-        </div>
-        <div class="col-md-4">
-            <div v-if="showCommitDetails">
-                <commitDetails></commitDetails>
+        </nav>
+        <div class="row full-height">
+            <div class="col-md-2">
+                <branches></branches>
+                <tags></tags>
             </div>
-            <div v-else>
-                <unstagedFiles></unstagedFiles>
-                <stagedFiles></stagedFiles>
-                <commitForm></commitForm>
-                <fileChanges></fileChanges>
+            <div class="col-md-6">
+                <graph></graph>
+            </div>
+            <div class="col-md-4">
+                <div v-if="showCommitDetails">
+                    <commitDetails></commitDetails>
+                </div>
+                <div v-else>
+                    <unstagedFiles></unstagedFiles>
+                    <stagedFiles></stagedFiles>
+                    <commitForm></commitForm>
+                    <fileChanges></fileChanges>
+                </div>
             </div>
         </div>
     </div>

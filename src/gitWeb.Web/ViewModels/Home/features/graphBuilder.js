@@ -203,6 +203,7 @@ export function draw(nodes, links) {
         .enter()
         .append("g")
         .attr("id",(d) => {return d.Sha})
+        .classed("commit-group",true)
         .attr("cursor", "pointer");
 
     var rect = groups
@@ -261,21 +262,34 @@ export function draw(nodes, links) {
         .attr("stroke", function(d) {
             return graphHelper.pickupColor(d.nodeColumn);
         })
-        .classed("commit-link", true)
+        .classed("commit-link", true);
+
+    var selected;
 
     groups.on("mouseover", function(d) {
         var el = d3.select(this);
-        el.select("text").classed("selected", true);
-        el.select("circle").classed("selected", true);
+        el.select("text").classed("hovered", true);
+        el.select("circle").classed("hovered", true);
     }).on("mouseout", function(d) {
         var el = d3.select(this);
-        el.select("text").classed("selected", false);
-        el.select("circle").classed("selected", false);
-    });
+        el.select("text").classed("hovered", false);
+        el.select("circle").classed("hovered", false);
+    }).on("click",function(d){
+      if(!selected){
+       selected = this;
+       d3.select(selected).classed("selected",true);
+      }
+      else{
+        d3.select(selected).classed("selected",false);
+        selected = this;
+        d3.select(selected).classed("selected",true);
+      }
+    })
 }
 
 export function onCommitClick(cb) {
-
-    var groups = d3.select("svg").selectAll("g")
-    groups.on("click", (g) => cb(g));
+    var groups = d3.select("svg").selectAll("text")
+    groups.on("click", (g) => {
+      cb(g)
+    });
 }

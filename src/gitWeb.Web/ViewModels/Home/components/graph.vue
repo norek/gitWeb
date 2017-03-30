@@ -18,8 +18,6 @@ export default {
     mounted() {
         store = this.$store;
         this.$nextTick(function() {
-
-            console.log("xxx");
             var elements = graphBuilder.build(graphAPI);
             graphBuilder.draw(elements.nodes, elements.links);
             graphBuilder.onCommitClick(commitClick);
@@ -28,7 +26,6 @@ export default {
 }
 
 function commitClick(commitInfo){
-
   if(commitInfo.openCommit){
     store.commit(types.CLEAR_SELECTED_COMMIT);
   }else{
@@ -42,7 +39,5 @@ function commitClick(commitInfo){
 @import '../shared/variables.scss';
 @import '../shared/graph.scss';
 
-.graphgit {
-    height: 100%;
-    width: 100%;
-}</style>
+
+</style>
