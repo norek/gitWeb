@@ -1,35 +1,36 @@
 import * as stagingAPI from '../../api/staging';
 import * as types from '../types';
+import * as enums from '../../Enums/repositoryEnum';
 
 const state = {
     unstagedFiles: [],
     stagedFiles: [],
-    fileChanges: []
+    fileChanges: [],
+    repositoryStatus: []
+}
+
+const getters = {
+  unstagedFiles: state => {
+    return state.repositoryStatus.filter(rs => rs.fileStatus != enums.staged_files);
+  },
+  stagedFiles: state => {
+    return state.repositoryStatus.filter(rs => rs.fileStatus == enums.staged_files);
+  }
 }
 
 const actions = {
-    FETCH_UNSTAGED_FILES({ commit, state }) {
-        stagingAPI.fetch_unstaged_files()
-            .then((files) => commit(types.APPLY_UNSTAGED_FILES, files));
-    },
     UNSTAGE_FILE({ dispatch }, file) {
         stagingAPI
             .unStageFile(file)
             .then(() => {
-                dispatch(types.FETCH_UNSTAGED_FILES);
-                dispatch(types.FETCH_STAGED_FILES);
+                dispatch(types.FETCH_REPOSITORY_STATUS);
             });
     },
-    FETCH_STAGED_FILES({ commit, state }) {
-        stagingAPI.fetch_staged_files()
-            .then((files) => commit(types.APPLY_STAGED_FILES, files));
-    },
-    UNSTAGE_FILE({ dispatch }, file) {
+    STAGE_FILE({ dispatch }, file) {
         stagingAPI
-            .unStageFile(file)
+            .stageFile(file)
             .then(() => {
-                dispatch(types.FETCH_UNSTAGED_FILES);
-                dispatch(types.FETCH_STAGED_FILES);
+                dispatch(types.FETCH_REPOSITORY_STATUS);
             });
     },
     FETCH_FILE_CHANGES({ dispatch,commit }) {
@@ -38,17 +39,17 @@ const actions = {
             .then((changes) => {
                 commit('APPLY_FILE_CHANGES',changes);
             });
+    },
+    FETCH_REPOSITORY_STATUS({ commit, state }) {
+        stagingAPI.fetch_repository_status()
+            .then((files) => commit(types.APPLY_REPOSITORY_STATUS, files));
     }
 }
 
 const mutations = {
-    APPLY_UNSTAGED_FILES(state, files) {
+    APPLY_REPOSITORY_STATUS(state, files) {
         console.log(files);
-        state.unstagedFiles = files;
-    },
-    APPLY_STAGED_FILES(state, files) {
-        console.log(files);
-        state.stagedFiles = files;
+        state.repositoryStatus = files;
     },
     APPLY_FILE_CHANGES(state,changes){
         console.log(changes);
@@ -59,5 +60,6 @@ const mutations = {
 export default {
     state,
     actions,
-    mutations
+    mutations,
+    getters
 }

@@ -2,14 +2,13 @@ $primary-color: lightgrey;
 $primary-back-color: #303030;
 $panel-header-color:#555555;
 $panel-secondary-color:#636370;
+$font-stack: Helvetica, sans-serif;
 
 #main{
   height: 100%;
   padding: 0;
   margin: 0;
 }
-
-
 
 .panelBlade {
   color: $primary-color;
@@ -20,17 +19,17 @@ $panel-secondary-color:#636370;
    border-radius: 0px;
    }
   .panelBlade .rightPanelHeader {
-    font-size: 1.0em !important;
     padding: 0.5em;
     background-color:$panel-header-color; }
     .panelBlade .rightPanelHeader label {
       display: inline-block; }
     .panelBlade .rightPanelHeader button {
-      font-size: inherit;
+      // font-size: inherit;
       float: right; }
   .panelBlade table {
     width: 100%;
-
+    font: $font-stack;
+    font-size: 1.3em;
     border: none;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
