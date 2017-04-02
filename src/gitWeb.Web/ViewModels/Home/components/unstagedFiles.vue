@@ -8,11 +8,6 @@
             <tr v-for="file in unstagedFiles">
                 <td><button v-on:click="stageFile(file)">+</button></td>
                 <td>{{file.filePath}}</td>
-                <td>
-                  <!-- {{file.fileStatus}} -->
-                    <span v-bind:class.="fileStatusIcon(file)" aria-hidden="true"></span>
-                </td>
-
             </tr>
         </tbody>
     </table>
@@ -27,22 +22,6 @@ export default {
     computed: {
         unstagedFiles() {
             return this.$store.getters.unstagedFiles;
-        },
-        fileStatusIcon(file){
-
-          if(file.fileStatus == enums.added_file){
-            return "glyphicon glyphicon-align-left";
-          }else if(file.fileStatus == enums.modified_file){
-            return "glyphicon glyphicon-minus";
-          }else if(file.fileStatus == enums.removed_file){
-            return "glyphicon glyphicon-star";
-          }else if(file.fileStatus == enums.conflicted_file){
-            return "glyphicon glyphicon-saved";
-          }else if(file.fileStatus == enums.staged_files){
-            return "glyphicon glyphicon-link";
-          }else{
-            return "";
-          }
         }
     },
     methods: {

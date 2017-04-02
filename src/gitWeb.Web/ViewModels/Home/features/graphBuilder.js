@@ -288,7 +288,7 @@ export function draw(nodes, links) {
 }
 
 export function onCommitClick(cb) {
-    var groups = d3.select("svg").selectAll("text")
+    var groups = d3.select("svg").selectAll("g")
     groups.on("click", (g) => {
       cb(g)
     });
