@@ -1,4 +1,5 @@
-﻿using gitWeb.Core.Features.Commit;
+﻿using gitWeb.Core.Features.Branch;
+using gitWeb.Core.Features.Commit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,4 @@ namespace gitWeb.Web.Api
         }
 
     }
-
-
 }

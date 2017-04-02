@@ -26,18 +26,19 @@ const actions = {
                 dispatch(types.FETCH_REPOSITORY_STATUS);
             });
     },
-    STAGE_FILE({ dispatch }, filePath) {
-        stagingAPI
-            .stageFile(filePath)
-            .then(() => {
-                dispatch(types.FETCH_REPOSITORY_STATUS);
-            });
-    },
+
     FETCH_FILE_CHANGES({ dispatch,commit }) {
         stagingAPI
             .getListOfHunks('file')
             .then((changes) => {
                 commit('APPLY_FILE_CHANGES',changes);
+            });
+    },
+    STAGE_FILE({ dispatch }, filePath) {
+        stagingAPI
+            .stageFile(filePath)
+            .then(() => {
+                dispatch(types.FETCH_REPOSITORY_STATUS);
             });
     },
     FETCH_REPOSITORY_STATUS({ commit, state }) {

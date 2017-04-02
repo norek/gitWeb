@@ -80,10 +80,6 @@
       <Project>{0F610247-8F62-48FB-BF64-55772763678B}</Project>
       <Name>gitWeb.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\gitWeb\gitWeb.csproj">
-      <Project>{895E3513-C252-4BCF-A4B7-8C1EE06FF6A0}</Project>
-      <Name>gitWeb</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -11,3 +11,7 @@ export const APPLY_REPOSITORY_STATUS = "APPLY_REPOSITORY_STATUS"
 //commitArea types
 //mutations
 export const CLEAR_SELECTED_COMMIT = "CLEAR_SELECTED_COMMIT";
+
+
+//branchArea
+export const GET_ALL_BRANCHES = "GET_ALL_BRANCHES";

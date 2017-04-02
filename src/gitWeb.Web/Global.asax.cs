@@ -16,6 +16,7 @@ using LibGit2Sharp;
 using gitWeb.Core;
 using gitWeb.Core.Features.Configuration;
 using gitWeb.Core.Features.Stage;
+using gitWeb.Core.Features.Branch;
 
 namespace gitWeb.Web
 {
@@ -41,6 +42,7 @@ namespace gitWeb.Web
             builder.RegisterType<WebConfig>().As<IConfigurationRepository>();
             builder.RegisterType<CommitProvider>().As<ICommitProvider>();
             builder.RegisterType<StagingAreaProvider>().As<IStagingAreaProvider>();
+            builder.RegisterType<BranchProvider>().As<IBranchProvider>();
             builder.RegisterType<RepositoryFactory>().AsSelf();    
             builder.Register(c => c.Resolve<RepositoryFactory>().GetRepository()).SingleInstance();
 

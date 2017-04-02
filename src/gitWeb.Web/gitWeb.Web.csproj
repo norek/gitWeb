@@ -153,6 +153,7 @@
     <Content Include="Views\Default\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\BranchController.cs" />
     <Compile Include="Api\CommitController.cs" />
     <Compile Include="Api\FileChangesController.cs" />
     <Compile Include="Api\FileController.cs" />
