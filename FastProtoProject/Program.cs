@@ -13,39 +13,57 @@ namespace FastProtoProject
     {
         static void Main(string[] args)
         {
+
             using (var repo = new Repository(@"C:\inPOS"))
             {
-                var RFC2822Format = "ddd dd MMM HH:mm:ss yyyy K";
+                //Get reference of head
+                GetLocalBranchesMergedToHead(repo);
 
-                int identity = 0;
 
-                var labels  = repo.Commits.Take(50).Select(d => new Label(d.Sha, d.Message, d.Author.When.Date, d.Parents.Select(dd => dd.Sha).ToArray())).ToList();
 
-                var jsonLabels = JsonConvert.SerializeObject(labels);
 
-                //foreach (var label in labels)
+
+
+                //foreach (var item in localHeadsContainingTheCommit)
                 //{
-                //    foreach (var pLabel in label.Parents)
-                //    {
-                //        var parent = labels.SingleOrDefault(d => d.Sha == pLabel);
 
-                //        label.SetParents(parent);
-
-                //        //if (parent != null)
-                //        //{
-                //        //    parent.AddChild(label);
-                //        //}
-                //    }
                 //}
 
+                //var ss = localHeadsContainingTheCommit.Select(branchRef => repo.Branches[branchRef.CanonicalName]);
 
-                var s = JsonConvert.SerializeObject(labels);
+                //Console.WriteLine(ss.Select(d => d.CanonicalName));
+
+                //var RFC2822Format = "ddd dd MMM HH:mm:ss yyyy K";
+
+                //int identity = 0;
+
+                //var labels  = repo.Commits.Take(50).Select(d => new Label(d.Sha, d.Message, d.Author.When.Date, d.Parents.Select(dd => dd.Sha).ToArray())).ToList();
+
+                //var jsonLabels = JsonConvert.SerializeObject(labels);
+
+                ////foreach (var label in labels)
+                ////{
+                ////    foreach (var pLabel in label.Parents)
+                ////    {
+                ////        var parent = labels.SingleOrDefault(d => d.Sha == pLabel);
+
+                ////        label.SetParents(parent);
+
+                ////        //if (parent != null)
+                ////        //{
+                ////        //    parent.AddChild(label);
+                ////        //}
+                ////    }
+                ////}
 
 
-                foreach (var comm in labels)
-                {
-                    Console.WriteLine(comm);
-                }
+                //var s = JsonConvert.SerializeObject(labels);
+
+
+                //foreach (var comm in labels)
+                //{
+                //    Console.WriteLine(comm);
+                //}
 
 
                 //var w = JsonConvert.SerializeObject(links);
@@ -56,7 +74,21 @@ namespace FastProtoProject
             Console.ReadLine();
         }
 
-       
+        private static void GetLocalBranchesMergedToHead(Repository repo)
+        {
+            var headRef = repo.Refs.Where(r => r.CanonicalName == repo.Head.CanonicalName);
+
+            //get only local branches
+            var tips = repo.Branches.Where(d => !d.IsRemote).Select(x => x.Tip).ToList();
+            //check if local branch tip is rechable from HEAD
+            var refs = repo.Refs.ReachableFrom(headRef, tips);
+
+            if (refs.Any())
+            {
+                //This branch was merged
+            }
+        }
+
         class Label
         {
             public override string ToString()
@@ -65,7 +97,7 @@ namespace FastProtoProject
             }
 
 
-            public Label(string id, string name, DateTime date,string[] shaParens)
+            public Label(string id, string name, DateTime date, string[] shaParens)
             {
                 Sha = id;
                 Name = name;
