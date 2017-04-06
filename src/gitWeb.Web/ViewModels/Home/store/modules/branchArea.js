@@ -2,7 +2,8 @@ import * as branchService from '../../api/branchService';
 
 const branch = {
     name: "",
-    isRemote: false
+    isRemote: false,
+    isHead: false
 }
 
 const state = {
@@ -13,12 +14,15 @@ const state = {
 const mutations = {
     SET_ALL_BRANCHES(state, branchList) {
         state.branchList = branchList;
-    },
-    SET_CURRENT_BRANCH(state, selectedBranch) {
-        state.currentBranch = selectedBranch;
     }
-
 }
+
+const getters = {
+  currentBranch: state => {
+    return state.branchList.filter(s => s.isHead)[0];
+  }
+}
+
 const actions = {
         GET_ALL_BRANCHES({
             commit
@@ -27,18 +31,16 @@ const actions = {
                 .then((b) => commit('SET_ALL_BRANCHES', b))
         },
         CHECKOUT_BRANCH({commit},branchName){
-          branchService.checkoutBranch(branchName)
-              .then((b) => commit('SET_CURRENT_BRANCH', b))
+          return branchService.checkoutBranch(branchName)
         },
         CREATE_NEW_BRANCH({dispatch,commit}, branchName) {
             return new Promise((resolve, reject) => {
                     branchService.createNewBranch(branchName)
                         .then((b) => {
-                          dispatch('GET_ALL_BRANCHES')
                           dispatch('CHECKOUT_BRANCH', branchName)
+                          .then(() => dispatch('GET_ALL_BRANCHES'))
                         })
                         .then(resolve());
-
                 })
             }
         }
@@ -46,5 +48,6 @@ const actions = {
 export default {
     state,
     mutations,
-    actions
+    actions,
+    getters
 }

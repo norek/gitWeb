@@ -35,7 +35,7 @@ export default {
             return this.$store.state.branchArea.branchList;
         },
         currentBranchName() {
-          var currBranch = this.$store.state.branchArea.currentBranch;
+          var currBranch = this.$store.getters.currentBranch;
 
           if(currBranch != undefined){
             return currBranch.name;
