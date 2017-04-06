@@ -31,5 +31,19 @@ namespace gitWeb.Web.Api
             _branchProvider.Create(branchName);
             return Ok();
         }
+
+        [HttpPost]
+        [Route("{branchName}/checkout")]
+        public IHttpActionResult Checkout(string branchName)
+        {
+            var currbanch = _branchProvider.Checkout(branchName);
+
+            if (currbanch == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(currbanch);
+        }
     }
 }
