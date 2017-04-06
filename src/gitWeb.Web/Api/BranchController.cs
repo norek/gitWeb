@@ -24,5 +24,12 @@ namespace gitWeb.Web.Api
         {
             return Ok(_branchProvider.GetAllBranches());
         }
+
+        [HttpPost]
+        public IHttpActionResult Create(string branchName)
+        {
+            _branchProvider.Create(branchName);
+            return Ok();
+        }
     }
 }
