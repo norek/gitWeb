@@ -2,7 +2,7 @@ import * as commitApi from '../../api/commitApi';
 
 function createEmptyCommit(){
   return {
-      Sha: "",
+      sha: "",
       message: "",
       author: "",
       date: ""
@@ -21,7 +21,7 @@ const actions = {
       commit('setCurrentCommit',selectedCommit);
 
 
-      commitApi.getCommitDetails(state.selectedCommit.Sha)
+      commitApi.getCommitDetails(state.selectedCommit.sha)
                .then((r) =>
                commit('setCurrentCommitDetails',r));
     }

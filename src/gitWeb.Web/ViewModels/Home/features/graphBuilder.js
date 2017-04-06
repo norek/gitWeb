@@ -4,10 +4,8 @@ function Node(x,y){
   return new {x:x,y:y};
 }
 
-export function build(graphDataService) {
-    var data = graphDataService.getTree(null);
-
-    data = data.slice(0, 20);
+export function build(data) {
+    data = data.slice(0, 120);
 
     var i = 0;
     data.forEach(function(c) {
@@ -18,7 +16,6 @@ export function build(graphDataService) {
     });
 
     function setCommitPosition() {
-        console.log('start');
         var first = data[0];
         first.column = 1;
         first.x = first.column * 20
@@ -27,11 +24,11 @@ export function build(graphDataService) {
     }
 
     function createMainPath(element) {
-        if (element.Parents === undefined || element.Parents.Length < 0) return;
+        if (element.parents === undefined || element.parents.Length < 0) return;
 
-        var firstParentSha = element.Parents[0];
+        var firstparentsha = element.parents[0];
 
-        var firstParentArray = data.find(x => x.Sha === firstParentSha);
+        var firstParentArray = data.find(x => x.sha === firstparentsha);
 
         if (firstParentArray === undefined) return;
 
@@ -69,15 +66,15 @@ export function build(graphDataService) {
     function assignParentColumn(child) {
 
         var parents = data.filter(function(d) {
-            return child.Parents.indexOf(d.Sha) >= 0
+            return child.parents.indexOf(d.sha) >= 0
         });
 
         if (parents.length <= 0) return;
 
         var parentsArray = [];
-        for (i = 0; i < child.Parents.length; i++) {
-            var parentSha = child.Parents[i];
-            var currParent = parents.find(x => x.Sha == parentSha);
+        for (i = 0; i < child.parents.length; i++) {
+            var parentsha = child.parents[i];
+            var currParent = parents.find(x => x.sha == parentsha);
 
             if (currParent === undefined) {
                 var fakeParent = {
@@ -103,10 +100,10 @@ export function build(graphDataService) {
             } else {
 
                 var allChildrenOfCurrentParrent = data.filter(function(d) {
-                    return d.Parents.indexOf(currParent.Sha) >= 0
+                    return d.parents.indexOf(currParent.sha) >= 0
                 });
 
-                var otherParent = allChildrenOfCurrentParrent.find(p => p.Sha != child.Sha);
+                var otherParent = allChildrenOfCurrentParrent.find(p => p.sha != child.sha);
 
                 if (otherParent !== undefined) {
                     continue;
@@ -139,43 +136,44 @@ export function build(graphDataService) {
         var curr = data[i];
 
         nodes.push({
-            Sha: curr.Sha,
+            sha: curr.sha,
             x: curr.x,
             y: curr.y,
-            Orig: true
+            Orig: true,
+            reachableBranches: curr.reachableBranches
         });
 
-        if (curr.Parents === undefined) continue;
-        for (var j = 0; j < curr.Parents.length; j++) {
-            var currPar = curr.Parents[j]
+        if (curr.parents === undefined) continue;
+        for (var j = 0; j < curr.parents.length; j++) {
+            var currPar = curr.parents[j]
 
             if (currPar === undefined) continue;
 
-            var exPath = data.find((s) => s.Sha == currPar);
+            var exPath = data.find((s) => s.sha == currPar);
 
 
             if (exPath === undefined) continue;
 
             if (exPath.column === curr.column) {
                 links.push({
-                    source: curr.Sha,
+                    source: curr.sha,
                     target: currPar,
                     nodeColumn: exPath.column
                 });
             } else {
-                var intermidSha = curr.Sha + exPath.Sha;
+                var intermidsha = curr.sha + exPath.sha;
                 nodes.push({
-                    Sha: intermidSha,
+                    sha: intermidsha,
                     x: exPath.x,
                     y: curr.y + 10
                 })
                 links.push({
-                    source: curr.Sha,
-                    target: intermidSha,
+                    source: curr.sha,
+                    target: intermidsha,
                     nodeColumn: exPath.column
                 })
                 links.push({
-                    source: intermidSha,
+                    source: intermidsha,
                     target: currPar,
                     nodeColumn: exPath.column
                 })
@@ -183,7 +181,7 @@ export function build(graphDataService) {
         }
     }
 
-    nodes.unshift({  Sha: 'uncommited changes',
+    nodes.unshift({  sha: 'uncommited changes',
       x: 20,
       y: 18,Orig:true,openCommit:true});
 
@@ -202,7 +200,7 @@ export function draw(nodes, links) {
         .data(nodes.filter((d) => d.Orig === true))
         .enter()
         .append("g")
-        .attr("id",(d) => {return d.Sha})
+        .attr("id",(d) => {return d.sha})
         .classed("commit-group",true)
         .attr("cursor", "pointer");
 
@@ -212,8 +210,6 @@ export function draw(nodes, links) {
         .attr("y", (d) => {return d.y - 10})
         .classed("commit-row", true);
 
-
-    //
     var commit = groups
         .append("circle")
         .attr("r", 5)
@@ -230,7 +226,7 @@ export function draw(nodes, links) {
 
     var labels = groups
         .append("text")
-        .text((d) =>{return d.Sha})
+        .text((d) =>{return d.sha + " x " + d.reachableBranches})
         .attr("x", (d) => {return 140})
         .attr("y", (d) => {return d.y + 5})
         .attr("class", (d) => {
@@ -247,14 +243,14 @@ export function draw(nodes, links) {
         .append("line")
         .attr("x1", function(l) {
             var sourceNode = nodes.filter(function(d, i) {
-                return d.Sha == l.target;
+                return d.sha == l.target;
             })[0];
             d3.select(this).attr("y1", sourceNode.y);
             return sourceNode.x
         })
         .attr("x2", function(l) {
             var targetNode = nodes.filter(function(d, i) {
-                return d.Sha == l.source;
+                return d.sha == l.source;
             })[0];
             d3.select(this).attr("y2", targetNode.y);
             return targetNode.x

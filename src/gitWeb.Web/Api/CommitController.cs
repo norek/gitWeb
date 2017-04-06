@@ -24,11 +24,11 @@ namespace gitWeb.Web.Api
             _commitProvider = commitProvider;
         }
 
-        // GET: api/Commit
         [HttpGet]
-        public IEnumerable<string> GetAll()
+        public IHttpActionResult GetAll()
         {
-            return new string[] { "value1", "value2" };
+
+            return Ok(_commitProvider.GetAllFromHead());
         }
 
         [HttpGet]

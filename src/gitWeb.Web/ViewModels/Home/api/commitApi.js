@@ -8,3 +8,11 @@ export function getCommitDetails(sha) {
            .catch((e) => reject(e));
     });
 }
+
+export function getAllFromHead() {
+    return new Promise((resolve, reject) => {
+      axios.get('/api/commit/')
+           .then((r) => resolve(r.data))
+           .catch((e) => reject(e));
+    });
+}

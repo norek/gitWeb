@@ -8,9 +8,8 @@
 </template>
 
 <script>
-
 import * as types from '../store/types'
-import * as graphAPI from '../api/graph'
+import * as commitAPI from '../api/commitApi'
 import * as graphBuilder from '../features/graphBuilder'
 var store;
 export default {
@@ -18,26 +17,23 @@ export default {
     mounted() {
         store = this.$store;
         this.$nextTick(function() {
-            var elements = graphBuilder.build(graphAPI);
-            graphBuilder.draw(elements.nodes, elements.links);
-            graphBuilder.onCommitClick(commitClick);
+            commitAPI.getAllFromHead().then(commits => {
+                var elements = graphBuilder.build(commits);
+                graphBuilder.draw(elements.nodes, elements.links);
+                graphBuilder.onCommitClick(commitClick);
+            })
         })
     }
 }
 
-function commitClick(commitInfo){
-  if(commitInfo.openCommit){
-    store.commit(types.CLEAR_SELECTED_COMMIT);
-  }else{
-    store.dispatch("SET_CURRENT_COMMIT",commitInfo)
-  }
+function commitClick(commitInfo) {
+    if (commitInfo.openCommit) {
+        store.commit(types.CLEAR_SELECTED_COMMIT);
+    } else {
+        store.dispatch("SET_CURRENT_COMMIT", commitInfo)
+    }
 }
-
 </script>
 
-<style lang="scss">
-@import '../shared/variables.scss';
-@import '../shared/graph.scss';
-
-
-</style>
+<style lang="scss">@import '../shared/variables.scss';
+@import '../shared/graph.scss';</style>

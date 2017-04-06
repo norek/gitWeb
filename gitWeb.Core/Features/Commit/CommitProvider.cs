@@ -1,10 +1,11 @@
 ﻿using System;
 using LibGit2Sharp;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace gitWeb.Core.Features.Commit
 {
-    public class CommitProvider:ICommitProvider
+    public class CommitProvider : ICommitProvider
     {
         private readonly IRepository _repository;
 
@@ -22,6 +23,34 @@ namespace gitWeb.Core.Features.Commit
             var committer = author;
 
             _repository.Commit(message, author, committer);
+        }
+
+        public IEnumerable<Commit> GetAllFromHead()
+        {
+            var commits = _repository.Commits
+                                .Select(d =>
+                                            new Commit()
+                                            {
+                                                Date = d.Committer.When.Date,
+                                                Name = d.Message,
+                                                Parents = d.Parents.Select(p => p.Sha),
+                                                Sha = d.Sha
+                                            }).ToList();
+
+            foreach (var branch in _repository.Branches)
+            {
+                var tipSha = branch.Tip.Sha;
+
+                var reachableCommitFromBranchTip = commits.Where(d => d.Sha == tipSha);
+
+                foreach (var item in reachableCommitFromBranchTip)
+                {
+                    item.AddReachableBranch(branch.FriendlyName);
+                }
+            }
+
+            return commits;
+
         }
 
         public CommitDetail GetCommitDetails(string sha)
@@ -43,5 +72,29 @@ namespace gitWeb.Core.Features.Commit
 
             return commitDetail;
         }
+    }
+
+    public class Commit
+    {
+        public Commit()
+        {
+            ReachableBranches = new List<string>();
+        }
+
+        public string Sha { get; set; }
+        public IEnumerable<string> Parents { get; set; }
+        public string Name { get; set; }
+        public DateTime Date { get; set; }
+
+        public List<string> ReachableBranches { get; private set; }
+
+        public void AddReachableBranch(string branchName)
+        {
+            if (!ReachableBranches.Contains(branchName))
+            {
+                ReachableBranches.Add(branchName);
+            }
+        }
+
     }
 }
