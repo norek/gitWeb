@@ -17,11 +17,12 @@ export default {
     mounted() {
         store = this.$store;
         this.$nextTick(function() {
-            commitAPI.getAllFromHead().then(commits => {
-                var elements = graphBuilder.build(commits);
-                graphBuilder.draw(elements.nodes, elements.links);
-                graphBuilder.onCommitClick(commitClick);
-            })
+            store.dispatch("GET_COMMIT_TREE_FROM_HEAD")
+                .then(() => {
+                    var elements = graphBuilder.build(this.$store.state.commitArea.commitTree);
+                    graphBuilder.draw(elements.nodes, elements.links);
+                    graphBuilder.onCommitClick(commitClick);
+                });
         })
     }
 }

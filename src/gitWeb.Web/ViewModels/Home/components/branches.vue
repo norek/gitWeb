@@ -57,7 +57,7 @@ export default {
             this.canCreateNewBranch = true;
         },
         checkout: function(branch) {
-            this.$store.dispatch(types.CHECKOUT_BRANCH, branch.name);
+            this.$store.dispatch("CHECKOUT_BRANCH_All", branch.name);
         }
     },
     beforeMount() {

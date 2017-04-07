@@ -20,8 +20,8 @@ export function getCurrentBranch(){
 export function checkoutBranch(branchName){
   return new Promise((resolve, reject) => {
       axios.post('/api/branch/' + branchName + '/checkout')
-          .then((r) => resolve(r.data))
-          .catch((e) => reject(e));
+          .then((r) =>resolve(r.data));
+          // .catch((e) => reject(e));
   });
 }
 

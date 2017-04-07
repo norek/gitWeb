@@ -16,3 +16,11 @@ export function getAllFromHead() {
            .catch((e) => reject(e));
     });
 }
+
+export function getAllFromBranchTip(tipSha) {
+    return new Promise((resolve, reject) => {
+      axios.get('/api/commit/' + tipSha + '/tree')
+           .then((r) => resolve(r.data))
+           .catch((e) => reject(e));
+    });
+}

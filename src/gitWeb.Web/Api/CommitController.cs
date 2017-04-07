@@ -39,5 +39,13 @@ namespace gitWeb.Web.Api
             return Ok(commitDetails);
         }
 
+        [HttpGet]
+        [Route("{tiSha}/tree")]
+        public IHttpActionResult GetFromBranchTip(string tipSha)
+        {
+            var commitDetails = _commitProvider.GetAllFromTip(tipSha);
+            return Ok(commitDetails);
+        }
+
     }
 }

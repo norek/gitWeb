@@ -3,7 +3,8 @@ import * as branchService from '../../api/branchService';
 const branch = {
     name: "",
     isRemote: false,
-    isHead: false
+    isHead: false,
+    tip:""
 }
 
 const state = {
@@ -24,21 +25,18 @@ const getters = {
 }
 
 const actions = {
-        GET_ALL_BRANCHES({
-            commit
-        }) {
+        GET_ALL_BRANCHES({commit}) {
             branchService.getAllbranches()
                 .then((b) => commit('SET_ALL_BRANCHES', b))
         },
-        CHECKOUT_BRANCH({commit},branchName){
-          return branchService.checkoutBranch(branchName)
+        CHECKOUT_BRANCH({dispatch}, branchName){
+          return branchService.checkoutBranch(branchName).then(() => dispatch("GET_ALL_BRANCHES"));
         },
         CREATE_NEW_BRANCH({dispatch,commit}, branchName) {
             return new Promise((resolve, reject) => {
                     branchService.createNewBranch(branchName)
                         .then((b) => {
                           dispatch('CHECKOUT_BRANCH', branchName)
-                          .then(() => dispatch('GET_ALL_BRANCHES'))
                         })
                         .then(resolve());
                 })

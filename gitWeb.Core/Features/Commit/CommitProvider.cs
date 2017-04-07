@@ -53,6 +53,33 @@ namespace gitWeb.Core.Features.Commit
 
         }
 
+        public IEnumerable<Commit> GetAllFromTip(string branchName)
+        {
+            var commits = _repository.Branches[branchName].Commits
+                           .Select(d =>
+                                       new Commit()
+                                       {
+                                           Date = d.Committer.When.Date,
+                                           Name = d.Message,
+                                           Parents = d.Parents.Select(p => p.Sha),
+                                           Sha = d.Sha
+                                       }).ToList();
+
+            foreach (var branch in _repository.Branches)
+            {
+                var tipSha = branch.Tip.Sha;
+
+                var reachableCommitFromBranchTip = commits.Where(d => d.Sha == tipSha);
+
+                foreach (var item in reachableCommitFromBranchTip)
+                {
+                    item.AddReachableBranch(branch.FriendlyName);
+                }
+            }
+
+            return commits;
+        }
+
         public CommitDetail GetCommitDetails(string sha)
         {
             if (string.IsNullOrEmpty(sha)) throw new ArgumentNullException();

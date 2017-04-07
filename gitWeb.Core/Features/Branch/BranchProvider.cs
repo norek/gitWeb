@@ -20,7 +20,7 @@ namespace gitWeb.Core.Features.Branch
         public IEnumerable<Branch> GetAllBranches()
         {
             return _repository.Branches
-                              .Select(b => new Branch() { IsRemote = b.IsRemote, Name = b.FriendlyName, IsHead = b.IsCurrentRepositoryHead })
+                              .Select(b => new Branch() { IsRemote = b.IsRemote, Name = b.FriendlyName, IsHead = b.IsCurrentRepositoryHead,Tip = b.Tip.Sha })
                               .ToList();
         }
 
@@ -43,7 +43,7 @@ namespace gitWeb.Core.Features.Branch
             }
 
             LibGit2Sharp.Branch currentBranch = Commands.Checkout(_repository, branch);
-            return new Branch(currentBranch.FriendlyName, currentBranch.IsRemote, currentBranch.IsCurrentRepositoryHead);
+            return new Branch(currentBranch.FriendlyName, currentBranch.IsRemote, currentBranch.IsCurrentRepositoryHead, currentBranch.Tip.Sha);
         }
 
     }
@@ -62,16 +62,18 @@ namespace gitWeb.Core.Features.Branch
 
         }
 
-        public Branch(string name, bool isRemote, bool isHead)
+        public Branch(string name, bool isRemote, bool isHead, string tip)
         {
             this.Name = name;
             this.IsRemote = isRemote;
             this.IsHead = isHead;
+            this.Tip = tip;
         }
 
         public string Name { get; set; }
 
         public bool IsRemote { get; set; }
         public bool IsHead { get; internal set; }
+        public string Tip { get; internal set; }
     }
 }

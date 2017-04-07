@@ -6,5 +6,6 @@ namespace gitWeb.Core.Features.Commit
     {
         CommitDetail GetCommitDetails(string sha);
         IEnumerable<Commit> GetAllFromHead();
+        IEnumerable<Commit> GetAllFromTip(string tipSha);
     }
 }

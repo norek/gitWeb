@@ -195,7 +195,7 @@ export function build(data) {
 export function draw(nodes, links) {
 
     var svg = d3.select("svg");
-
+svg.selectAll("*").remove();
     var groups = svg.selectAll("g")
         .data(nodes.filter((d) => d.Orig === true))
         .enter()
