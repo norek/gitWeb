@@ -1,57 +1,88 @@
 $primary-color: lightgrey;
 $primary-back-color: #303030;
-$panel-header-color:#555555;
-$panel-secondary-color:#636370;
+$panel-header-color: #555555;
+$panel-secondary-color: #636370;
 $font-stack: Helvetica, sans-serif;
+$hover-row-color: #424546;
+$selected-row-color: #094771;
 
-#main{
-  height: 100%;
-  padding: 0;
-  margin: 0;
+#main {
+    height: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 .panelBlade {
-  color: $primary-color;
-  margin-top: 0.7em;
-  margin-bottom: 0.7em;
-   background-color: #43484B;
-   border: none;
-   border-radius: 0px;
-   }
-  .panelBlade .rightPanelHeader {
-    padding: 0.5em;
-    background-color:$panel-header-color; }
-    .panelBlade .rightPanelHeader label {
-      display: inline-block; }
-    .panelBlade .rightPanelHeader button {
-      // font-size: inherit;
-      float: right; }
-  .panelBlade table {
-    width: 100%;
-    font: $font-stack;
-    font-size: 1.3em;
+    color: $primary-color;
+    margin-top: 0.7em;
+    margin-bottom: 0.7em;
+    background-color: #43484B;
     border: none;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box; }
-  .panelBlade tbody {
-    height: 300px;
-    overflow-y: auto;
-    padding: 0.4em;
-    overflow-x: hidden; }
-  .panelBlade thead {
-    background-color: #393E40;
-    padding: 2.5em;
-    text-align: left; }
-  .panelBlade th {
-    padding: 1em; }
-  .panelBlade td {
-    padding: 0.4em;
-    border: none; }
-  // .panelBlade tr:hover {
-  //   background-color: red;
-  //    }
-//   .panelBlade tr:hover td button {
-//     display: block !important; }
-//   .panelBlade tr td button {
-//     display: none; }
+    border-radius: 0;
+
+    .rightPanelHeader {
+        padding: 0.5em;
+        background-color: $panel-header-color;
+    }
+
+    .rightPanelHeader label {
+        display: inline-block;
+    }
+
+    .rightPanelHeader button {
+        float: right;
+    }
+
+    table {
+        width: 100%;
+        font: $font-stack;
+        font-size: 1.3em;
+        border: none;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    tbody {
+        height: 300px;
+        overflow-y: auto;
+        padding: 0.4em;
+        overflow-x: hidden;
+    }
+
+    thead {
+        background-color: #393E40;
+        padding: 2.5em;
+        text-align: left;
+    }
+
+    th {
+        padding: 1em;
+    }
+
+    td {
+        padding: 0.4em;
+        border: none;
+
+        &.column-icon{
+          width: 10%;
+        }
+    }
+
+
+
+    tr:hover {
+        background-color: $hover-row-color;
+    }
+
+    // tr:hover td button {
+    //     display: inline;
+    // }
+    //
+    // tr td button {
+    //     display: none;
+    // }
+}
+.selected {
+  background-color: $selected-row-color;
+}
