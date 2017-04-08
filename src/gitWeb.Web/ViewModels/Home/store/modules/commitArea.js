@@ -30,6 +30,9 @@ const actions = {
     GET_COMMIT_TREE_FROM_TIP({commit},tipSha){
       return commitApi.getAllFromBranchTip(tipSha)
                .then((commitTree) => commit('SET_COMMIT_TREE',commitTree));
+    },
+    COMMIT_BASIC({commit},commitMesage){
+      return commitApi.commit(commitMesage);
     }
 }
 

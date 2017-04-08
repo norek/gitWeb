@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using LibGit2Sharp;
+using System.Collections.Generic;
 
 namespace gitWeb.Core.Features.Commit
 {
@@ -7,5 +8,6 @@ namespace gitWeb.Core.Features.Commit
         CommitDetail GetCommitDetails(string sha);
         IEnumerable<Commit> GetAllFromHead();
         IEnumerable<Commit> GetAllFromTip(string tipSha);
+        void Commit(string message, Signature author);
     }
 }

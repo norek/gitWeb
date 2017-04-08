@@ -17,6 +17,11 @@ namespace gitWeb.Core.Features.Commit
 
         public void Commit(string message, Signature author)
         {
+            if (author == null)
+            {
+                author = new Signature("norek", "norekzal@gmail.com", DateTime.Now);
+            }
+
             if (string.IsNullOrEmpty(message)) throw new ArgumentNullException();
             if (author == null) throw new ArgumentNullException();
 
@@ -34,7 +39,8 @@ namespace gitWeb.Core.Features.Commit
                                                 Date = d.Committer.When.Date,
                                                 Name = d.Message,
                                                 Parents = d.Parents.Select(p => p.Sha),
-                                                Sha = d.Sha
+                                                Sha = d.Sha,
+                                                Message = d.MessageShort
                                             }).ToList();
 
             foreach (var branch in _repository.Branches)
@@ -62,7 +68,8 @@ namespace gitWeb.Core.Features.Commit
                                            Date = d.Committer.When.Date,
                                            Name = d.Message,
                                            Parents = d.Parents.Select(p => p.Sha),
-                                           Sha = d.Sha
+                                           Sha = d.Sha,
+                                           Message = d.MessageShort
                                        }).ToList();
 
             foreach (var branch in _repository.Branches)
@@ -112,6 +119,8 @@ namespace gitWeb.Core.Features.Commit
         public IEnumerable<string> Parents { get; set; }
         public string Name { get; set; }
         public DateTime Date { get; set; }
+
+        public string Message { get; set; }
 
         public List<string> ReachableBranches { get; private set; }
 

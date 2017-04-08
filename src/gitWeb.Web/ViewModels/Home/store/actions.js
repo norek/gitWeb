@@ -7,10 +7,19 @@ export const CHECKOUT_BRANCH_All = ({dispatch,state}, branchName) => {
         .then(() =>
 
         dispatch(types.GET_COMMIT_TREE_FROM_HEAD).then(() => {
-            console.log("ddd");
-            console.log(state.commitArea.commitTree);
           var elements = graphBuilder.build(state.commitArea.commitTree);
           graphBuilder.draw(elements.nodes, elements.links);
-
         }));
+}
+
+export const COMMIT = ({dispatch,state}, commitMessage) => {
+  return dispatch("COMMIT_BASIC", commitMessage)
+            .then(() => {
+              dispatch(types.GET_COMMIT_TREE_FROM_HEAD).then(() => {
+                  var elements = graphBuilder.build(state.commitArea.commitTree);
+                  graphBuilder.draw(elements.nodes, elements.links);
+              });
+              dispatch(types.FETCH_REPOSITORY_STATUS);
+            },
+            (err) => {console.log(err)})
 }

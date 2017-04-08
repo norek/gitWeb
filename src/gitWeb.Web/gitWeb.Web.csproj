@@ -155,6 +155,7 @@
   <ItemGroup>
     <Compile Include="Api\BranchController.cs" />
     <Compile Include="Api\CommitController.cs" />
+    <Compile Include="Api\CommitParams.cs" />
     <Compile Include="Api\FileChangesController.cs" />
     <Compile Include="Api\FileController.cs" />
     <Compile Include="Api\RepositoryController.cs" />

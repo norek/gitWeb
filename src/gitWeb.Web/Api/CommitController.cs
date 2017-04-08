@@ -47,5 +47,12 @@ namespace gitWeb.Web.Api
             return Ok(commitDetails);
         }
 
+        [HttpPost]
+        public IHttpActionResult Commit([FromBody] CommitParams commitParams)
+        {
+            _commitProvider.Commit(commitParams.Message, null);
+            return Ok();
+        }
+
     }
 }
