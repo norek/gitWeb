@@ -15,7 +15,7 @@ export const CHECKOUT_BRANCH_All = ({dispatch,state}, branchName) => {
 export const COMMIT = ({dispatch,state,commit}, commitMessage) => {
   return dispatch("COMMIT_BASIC", commitMessage)
             .then(() => {
-              commit("setCurrentCommitDetails",[]);
+              commit("CLEAR_SELECTED_COMMIT",[]);
               dispatch(types.GET_COMMIT_TREE_FROM_HEAD).then(() => {
                   var elements = graphBuilder.build(state.commitArea.commitTree);
                   graphBuilder.draw(elements.nodes, elements.links);
