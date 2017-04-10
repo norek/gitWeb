@@ -49,11 +49,9 @@ const actions = {
 
 const mutations = {
     APPLY_REPOSITORY_STATUS(state, files) {
-        console.log(files);
         state.repositoryStatus = files;
     },
     APPLY_FILE_CHANGES(state,changes){
-        console.log(changes);
         state.fileChanges = changes;
     }
 }
