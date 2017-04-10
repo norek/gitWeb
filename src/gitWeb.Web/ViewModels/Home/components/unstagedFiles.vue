@@ -1,6 +1,11 @@
 <template>
 <div class="panelBlade">
-    <div class="rightPanelHeader"> <label>UNSTAGED FILES</label> </div>
+    <div class="rightPanelHeader">
+        <label>UNSTAGED FILES</label>
+        <button type="button" v-on:click="stageAll()" class="icon-button">
+          <span class="glyphicon glyphicon-triangle-bottom"></span>
+        </button>
+    </div>
     <table>
         <thead>
         </thead>
@@ -41,6 +46,11 @@ export default {
     methods: {
         stageFile: function(file) {
             this.$store.dispatch(types.STAGE_FILE, file.filePath);
+        },
+        stageAll:function(){
+          for (var i = 0; i < this.unstagedFiles.length; i++) {
+            this.stageFile(this.unstagedFiles[i]);
+          }
         },
         selected(file) {
             if (this.selectedFile.filePath == file.filePath) {
