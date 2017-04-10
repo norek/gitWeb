@@ -27,7 +27,7 @@ export default {
             this.$validator.validateAll().then(() => {
                 this.$store.dispatch("COMMIT", this.commitMessage)
                             .then(() => {
-                                commitMessage = '';
+                                this.commitMessage = '';
                             });
             }).catch((e) => {
                 // eslint-disable-next-line
