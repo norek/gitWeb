@@ -12,7 +12,7 @@ export const CHECKOUT_BRANCH_All = ({dispatch,state}, branchName) => {
         }));
 }
 
-export const COMMIT = ({dispatch,state}, commitMessage) => {
+export const COMMIT = ({dispatch,state,commit}, commitMessage) => {
   return dispatch("COMMIT_BASIC", commitMessage)
             .then(() => {
               dispatch(types.GET_COMMIT_TREE_FROM_HEAD).then(() => {
@@ -20,6 +20,7 @@ export const COMMIT = ({dispatch,state}, commitMessage) => {
                   graphBuilder.draw(elements.nodes, elements.links);
               });
               dispatch(types.FETCH_REPOSITORY_STATUS);
+              commit("setCurrentCommitDetails",[]);
             },
             (err) => {console.log(err)})
 }

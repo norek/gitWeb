@@ -25,10 +25,10 @@ export default {
     methods: {
         validateBeforeSubmit() {
             this.$validator.validateAll().then(() => {
-                this.$store.dispatch("COMMIT", this.commitMessage);
-                // .then(() => {
-                //     commitMessage = '';
-                // });
+                this.$store.dispatch("COMMIT", this.commitMessage)
+                            .then(() => {
+                                commitMessage = '';
+                            });
             }).catch((e) => {
                 // eslint-disable-next-line
                 console.log(e);
