@@ -42,6 +42,26 @@ export default {
             canCreateNewBranch: false
         }
     },
+    methods: {
+        createBranch: function() {
+            this.$store.dispatch(types.CREATE_NEW_BRANCH, this.branchName)
+                .then(() => this.clearCreationForm());
+        },
+        clearCreationForm: function() {
+            this.branchName = '';
+            this.canCreateNewBranch = false;
+        },
+        thisIsCurrentBranch: function(branch){
+          return branch.name != this.currentBranchName;
+        },
+
+        showBranchInput: function() {
+            this.canCreateNewBranch = true;
+        },
+        checkout: function(branch) {
+            this.$store.dispatch("CHECKOUT_BRANCH_All", branch.name);
+        }
+    },
     computed: {
         branchList() {
             return this.$store.state.branchArea.branchList;
@@ -56,25 +76,7 @@ export default {
             return "";
         }
     },
-    methods: {
-        createBranch: function() {
-            this.$store.dispatch(types.CREATE_NEW_BRANCH, this.branchName)
-                .then(() => this.clearCreationForm());
-        },
-        thisIsCurrentBranch: function(branch){
-          return branch.name != this.currentBranchName;
-        },
-        clearCreationForm: function() {
-            this.branchName = '';
-            this.canCreateNewBranch = false;
-        },
-        showBranchInput: function() {
-            this.canCreateNewBranch = true;
-        },
-        checkout: function(branch) {
-            this.$store.dispatch("CHECKOUT_BRANCH_All", branch.name);
-        }
-    },
+
     beforeMount() {
         this.$store.dispatch(types.GET_ALL_BRANCHES);
     }
@@ -116,8 +118,5 @@ button:focus {
     color: red;
 }
 
-.icon-button {
-    border: none;
-    background-color: inherit;
-}
+
 </style>

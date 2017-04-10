@@ -126,8 +126,6 @@ export function build(data) {
 
     setCommitPosition();
 
-
-
     var links = [];
     var nodes = [];
 
@@ -140,6 +138,7 @@ export function build(data) {
             x: curr.x,
             y: curr.y,
             Orig: true,
+            message: curr.message,
             reachableBranches: curr.reachableBranches
         });
 
@@ -181,7 +180,7 @@ export function build(data) {
         }
     }
 
-    nodes.unshift({  sha: 'uncommited changes',
+    nodes.unshift({  sha: 'uncommited changes',message: 'uncommited changes',
       x: 20,
       y: 18,Orig:true,openCommit:true});
 
@@ -195,7 +194,7 @@ export function build(data) {
 export function draw(nodes, links) {
 
     var svg = d3.select("svg");
-svg.selectAll("*").remove();
+    svg.selectAll("*").remove();
     var groups = svg.selectAll("g")
         .data(nodes.filter((d) => d.Orig === true))
         .enter()
@@ -223,10 +222,9 @@ svg.selectAll("*").remove();
           return "commit-dot";
         });
 
-
     var labels = groups
         .append("text")
-        .text((d) =>{return d.sha + " x " + d.reachableBranches})
+        .text((d) =>{return d.message})
         .attr("x", (d) => {return 140})
         .attr("y", (d) => {return d.y + 5})
         .attr("class", (d) => {
@@ -236,6 +234,22 @@ svg.selectAll("*").remove();
 
           return "commit-label";
         });
+
+        var labels = groups
+            .append("text")
+            .text((d) =>{
+              if(d.reachableBranches != undefined && d.reachableBranches.length > 0){
+                return "BRANCH        " + d.reachableBranches
+              }
+              })
+            .attr("x", (d) => {return 400})
+            .attr("y", (d) => {return d.y + 5})
+            .attr("class", (d) => {
+              if(d.openCommit){
+                return "commit-label openCommit";
+              }
+              return "commit-label";
+            });
 
     var links = svg.selectAll("link")
         .data(links)

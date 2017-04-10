@@ -29,6 +29,11 @@ $selected-row-color: #094771;
         display: inline-block;
     }
 
+    .icon-button {
+        border: none;
+        background-color: inherit;
+    }
+
     .rightPanelHeader button {
         float: right;
     }
@@ -65,7 +70,7 @@ $selected-row-color: #094771;
         border: none;
 
         &.column-icon{
-          width: 10%;
+          width: 5%;
         }
     }
 
