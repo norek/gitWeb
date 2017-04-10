@@ -21,15 +21,15 @@
                 <graph></graph>
             </div>
             <div class="col-md-4">
-                <!-- <div v-if="showCommitDetails">
+                <div v-if="showCommitDetails">
                     <commitDetails></commitDetails>
                 </div>
-                <div v-else> -->
+                <div v-else>
                     <unstagedFiles></unstagedFiles>
                     <stagedFiles></stagedFiles>
                     <commitForm></commitForm>
                     <fileChanges></fileChanges>
-                <!-- </div> -->
+                </div>
             </div>
         </div>
     </div>
@@ -64,8 +64,9 @@ export default {
     },
     computed: {
         showCommitDetails() {
+          console.log("showCommit details")
             var selectedCommit = this.$store.state.commitArea.selectedCommit;
-            return selectedCommit !== undefined && selectedCommit.Sha != "";;
+            return selectedCommit !== undefined && selectedCommit.sha != "";;
         }
     },
     beforeMount(){

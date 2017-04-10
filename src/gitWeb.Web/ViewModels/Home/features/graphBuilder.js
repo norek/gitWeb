@@ -284,7 +284,14 @@ export function draw(nodes, links) {
         var el = d3.select(this);
         el.select("text").classed("hovered", false);
         el.select("circle").classed("hovered", false);
-    }).on("click",function(d){
+    });
+}
+var selected;
+
+export function onCommitClick(cb) {
+    var groups = d3.select("svg").selectAll("g")
+    groups.on("click", function(d)  {
+
       if(!selected){
        selected = this;
        d3.select(selected).classed("selected",true);
@@ -294,12 +301,7 @@ export function draw(nodes, links) {
         selected = this;
         d3.select(selected).classed("selected",true);
       }
-    })
-}
 
-export function onCommitClick(cb) {
-    var groups = d3.select("svg").selectAll("g")
-    groups.on("click", (g) => {
-      cb(g)
+      cb(d)
     });
 }
