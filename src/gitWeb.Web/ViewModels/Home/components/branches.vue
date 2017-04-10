@@ -75,10 +75,6 @@ export default {
 
             return "";
         }
-    },
-
-    beforeMount() {
-        this.$store.dispatch(types.GET_ALL_BRANCHES);
     }
 }
 </script>

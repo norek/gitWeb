@@ -13,7 +13,6 @@ import * as commitAPI from '../api/commitApi'
 import * as graphBuilder from '../features/graphBuilder'
 var store;
 export default {
-
     mounted() {
         store = this.$store;
         this.$nextTick(function() {

@@ -63,9 +63,6 @@ export default {
             this.selectedFile = file;
             this.$store.dispatch(types.FETCH_FILE_CHANGES, file.filePath)
         }
-    },
-    beforeMount() {
-        this.$store.dispatch(types.FETCH_REPOSITORY_STATUS);
     }
 }
 </script>

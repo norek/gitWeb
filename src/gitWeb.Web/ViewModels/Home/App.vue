@@ -45,6 +45,11 @@ import fileChanges from './components/fileChanges.vue'
 import graph from './components/graph.vue'
 import branches from './components/branches.vue'
 import tags from './components/tags.vue'
+import * as types from './store/types'
+
+function checkForReporitoryStatusUpate(repoStatusFunction){
+  setInterval(repoStatusFunction, 10000)
+}
 
 export default {
     components: {
@@ -62,8 +67,16 @@ export default {
             var selectedCommit = this.$store.state.commitArea.selectedCommit;
             return selectedCommit !== undefined && selectedCommit.Sha != "";;
         }
+    },
+    beforeMount(){
+      var fetchFunction = () => this.$store.dispatch(types.FETCH_REPOSITORY_STATUS);
+
+      fetchFunction().then(() => checkForReporitoryStatusUpate(fetchFunction));
+
+      this.$store.dispatch(types.GET_ALL_BRANCHES);
     }
 }
+
 </script>
 
 <style lang="scss">@import './shared/variables.scss';
