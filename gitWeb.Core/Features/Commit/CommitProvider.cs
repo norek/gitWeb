@@ -2,6 +2,7 @@
 using LibGit2Sharp;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 
 namespace gitWeb.Core.Features.Commit
 {
@@ -98,11 +99,11 @@ namespace gitWeb.Core.Features.Commit
             var commitParent = commit.Parents.Last();
 
             TreeChanges treeChanges = _repository.Diff.Compare<TreeChanges>(commitParent.Tree, commit.Tree);
-
+            
             CommitDetail commitDetail = new CommitDetail(sha, commit.Message, commit.Author.Name, commit.Author.When.Date);
-            commitDetail.Files.AddRange(treeChanges.Added.Select(s => new CommitFile((int)s.Status, s.Path)));
-            commitDetail.Files.AddRange(treeChanges.Modified.Select(s => new CommitFile((int)s.Status, s.Path)));
-            commitDetail.Files.AddRange(treeChanges.Deleted.Select(s => new CommitFile((int)s.Status, s.Path)));
+            commitDetail.Files.AddRange(treeChanges.Select(s => new CommitFile((int)s.Status, s.Path, Path.GetFileName(s.Path))));
+            //commitDetail.Files.AddRange(treeChanges.Modified.Select(s => new CommitFile((int)s.Status, s.Path, Path.GetFileName(s.Path))));
+            //commitDetail.Files.AddRange(treeChanges.Deleted.Select(s => new CommitFile((int)s.Status, s.Path, Path.GetFileName(s.Path))));
 
             return commitDetail;
         }
