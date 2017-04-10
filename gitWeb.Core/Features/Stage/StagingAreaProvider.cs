@@ -52,7 +52,12 @@ namespace gitWeb.Core.Features.Stage
             var retrivedStatus = _repository.RetrieveStatus();
 
             List<RepositoryStatus> repoStatus = new List<RepositoryStatus>();
-            return retrivedStatus.Where(rs => !retrivedStatus.Ignored.Select(i => i.FilePath).Contains(rs.FilePath)).Select(d => new RepositoryStatus() { FilePath = d.FilePath, FileStatus = (int)d.State });
+            repoStatus.AddRange(retrivedStatus.Added.Select(d => new RepositoryStatus() { FilePath = d.FilePath, FileStatus = 1 }));
+            repoStatus.AddRange(retrivedStatus.Modified.Select(d => new RepositoryStatus() { FilePath = d.FilePath, FileStatus = 2 }));
+            repoStatus.AddRange(retrivedStatus.Removed.Select(d => new RepositoryStatus() { FilePath = d.FilePath, FileStatus = 3 }));
+            repoStatus.AddRange(retrivedStatus.Staged.Select(d => new RepositoryStatus() { FilePath = d.FilePath, FileStatus = 4 }));
+
+            return repoStatus;
         }
     }
 

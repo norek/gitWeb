@@ -43,6 +43,7 @@ namespace gitWeb.Web
             builder.RegisterType<CommitProvider>().As<ICommitProvider>();
             builder.RegisterType<StagingAreaProvider>().As<IStagingAreaProvider>();
             builder.RegisterType<BranchProvider>().As<IBranchProvider>();
+            builder.RegisterType<FileChangeProvider>().As<IFileChangeProvider>();
             builder.RegisterType<RepositoryFactory>().AsSelf();    
             builder.Register(c => c.Resolve<RepositoryFactory>().GetRepository()).SingleInstance();
 

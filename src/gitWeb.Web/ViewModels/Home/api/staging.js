@@ -39,15 +39,14 @@ export function unStageFile(file) {
     })
 }
 
-export function getListOfHunks(fileName) {
+export function getListOfHunks(filePath) {
     return new Promise((resolve, reject) => {
-        axios.get('/api/FileChanges')
+        axios.get('/api/filechange?path=' + filePath)
             .then(function(response) {
-                console.log(response.data);
                 resolve(response.data);
             })
             .catch(function(error) {
-                reject();
+                reject(error);
             });
     })
 }

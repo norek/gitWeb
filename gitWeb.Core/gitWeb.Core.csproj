@@ -61,7 +61,9 @@
     <Compile Include="Features\Configuration\GitConfigurationProvider.cs" />
     <Compile Include="Features\Configuration\IConfigurationRepository.cs" />
     <Compile Include="Features\Configuration\RepositoryPathValdiator.cs" />
+    <Compile Include="Features\Stage\FileChange.cs" />
     <Compile Include="Features\Stage\FileChangeProvider.cs" />
+    <Compile Include="Features\Stage\IFileChangeProvider.cs" />
     <Compile Include="Features\Stage\StagingAreaProvider.cs" />
     <Compile Include="Formatters\ChanageContentFormatter.cs" />
     <Compile Include="Formatters\Hunk.cs" />

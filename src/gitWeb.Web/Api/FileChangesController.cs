@@ -9,37 +9,20 @@ using System.Web.Http;
 
 namespace gitWeb.Web.Api
 {
+    [Route("api/filechange")]
     public class FileChangesController : ApiController
     {
-        string path = @"C:\Projects\Own\DSP\gitWeb";
+        private readonly IFileChangeProvider _changeProvider;
 
-        // GET: api/FileChanges
-        public IHttpActionResult Get()
+        public FileChangesController(IFileChangeProvider changeProvider)
         {
-            FileChangeProvider sd = new FileChangeProvider(new Repository(path));
-            var result = sd.GetFileDiff(@"C:\Projects\Own\DSP\gitWeb\src\gitWeb.Web\ViewModels\Home\components\unstagedFiles.vue");
-            return Ok(result);
+            _changeProvider = changeProvider;
         }
 
-        // GET: api/FileChanges/5
-        public string Get(int id)
+        [HttpGet]
+        public IHttpActionResult Get(string path)
         {
-            return "value";
-        }
-
-        // POST: api/FileChanges
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT: api/FileChanges/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/FileChanges/5
-        public void Delete(int id)
-        {
+            return Ok(_changeProvider.GetFileDiff(path));
         }
     }
 }

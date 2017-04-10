@@ -5,17 +5,17 @@
         <thead>
         </thead>
         <tbody>
-            <tr v-for="file in unstagedFiles" v-bind:class="fileStatusClass(file)">
-                <td  class="column-icon">
-                  <button v-on:click="stageFile(file)" class="icon-button">
+            <tr v-for="file in unstagedFiles" v-on:click="selectFile(file)" v-bind:class="selected(file)">
+                <td class="column-icon">
+                    <span class="glyphicon glyphicon-inbox" v-bind:class="fileStatusClass(file)">
+                  </span>
+                </td>
+                <td class="column-icon">
+                    <button v-on:click="stageFile(file)" class="icon-button">
                     <span class="glyphicon glyphicon-menu-down"></span>
                   </button>
                 </td>
-                <td>
-                  <div>
-                    {{file.filePath}}
-                  </div>
-                </td>
+                <td>{{file.filePath}}</td>
             </tr>
         </tbody>
     </table>
@@ -27,26 +27,41 @@ import * as types from '../store/types'
 import * as enums from '../Enums/repositoryEnum'
 
 export default {
-
+    data() {
+        return {
+            selectedFile: {}
+        }
+    },
     computed: {
         unstagedFiles() {
             return this.$store.getters.unstagedFiles;
         }
+
     },
     methods: {
         stageFile: function(file) {
             this.$store.dispatch(types.STAGE_FILE, file.filePath);
         },
-        fileStatusClass(file){
-          if(file.fileStatus == 1){
-            return 'file-removed';
-          }else if(file.fileStatus == 2){
-            return 'file-modified';
-          }else if(file.fileStatus == 3){
-            return 'file-added';
-          }else{
-            return '';
-          }
+        selected(file) {
+            if (this.selectedFile.filePath == file.filePath) {
+                return "selected";
+            }
+            return "";
+        },
+        fileStatusClass(file) {
+            if (file.fileStatus == 1) {
+                return 'file-removed';
+            } else if (file.fileStatus == 2) {
+                return 'file-modified';
+            } else if (file.fileStatus == 3) {
+                return 'file-added';
+            } else {
+                return '';
+            }
+        },
+        selectFile: function(file) {
+            this.selectedFile = file;
+            this.$store.dispatch(types.FETCH_FILE_CHANGES, file.filePath)
         }
     },
     beforeMount() {
@@ -55,47 +70,21 @@ export default {
 }
 </script>
 
-<style lang="scss">
-  @import '../shared/variables.scss';
+<style lang="scss">@import '../shared/variables.scss';
 
-.file-modified{
-    div{
-      color: yellow;
-    }
-
-    td{
-      background-color: green;
-    }
+.file-modified {
+    color: $file-modified_color;
 }
 
-.file-removed{
-    div{
-      color: yellow;
-    }
-
-    td{
-      background-color: green;
-    }
+.file-removed {
+    color: $file-removed-color;
 }
 
-.file-added{
-    div{
-      color: yellow;
-    }
-
-    td{
-      background-color: green;
-    }
+.file-added {
+    color: $file-added-color;
 }
 
-.file-conflicted{
-    div{
-      color: yellow;
-    }
-
-    td{
-      background-color: green;
-    }
+.file-conflicted {
+    color: $file-conflicted-color;
 }
-
 </style>

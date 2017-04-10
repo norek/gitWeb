@@ -27,9 +27,9 @@ const actions = {
             });
     },
 
-    FETCH_FILE_CHANGES({ dispatch,commit }) {
-        stagingAPI
-            .getListOfHunks('file')
+    FETCH_FILE_CHANGES({ dispatch,commit },filePath) {
+        return stagingAPI
+            .getListOfHunks(filePath)
             .then((changes) => {
                 commit('APPLY_FILE_CHANGES',changes);
             });

@@ -5,6 +5,10 @@ $panel-secondary-color: #636370;
 $font-stack: Helvetica, sans-serif;
 $hover-row-color: #424546;
 $selected-row-color: #094771;
+$file-modified_color: yellow;
+$file-removed-color: red;
+$file-added-color: green;
+$file-conflicted-color: orange;
 
 #main {
     height: 100%;
@@ -69,17 +73,14 @@ $selected-row-color: #094771;
         padding: 0.4em;
         border: none;
 
-        &.column-icon{
-          width: 5%;
+        &.column-icon {
+            width: 5%;
         }
     }
-
-
 
     tr:hover {
         background-color: $hover-row-color;
     }
-
     // tr:hover td button {
     //     display: inline;
     // }
@@ -88,6 +89,7 @@ $selected-row-color: #094771;
     //     display: none;
     // }
 }
+
 .selected {
-  background-color: $selected-row-color;
+    background-color: $selected-row-color;
 }
