@@ -10,7 +10,11 @@
                         <label>gitWeb</label>
                     </a>
                 </div>
-            </div>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Messages</a></li>
+                </ul> </div>
         </nav>
         <div class="row full-height">
             <div class="col-md-2">
@@ -32,8 +36,8 @@
                 </div>
             </div>
         </div>
+        </div>
     </div>
-</div>
 </template>
 
 <script>
@@ -47,8 +51,8 @@ import branches from './components/branches.vue'
 import tags from './components/tags.vue'
 import * as types from './store/types'
 
-function checkForReporitoryStatusUpate(repoStatusFunction){
-  setInterval(repoStatusFunction, 10000)
+function checkForReporitoryStatusUpate(repoStatusFunction) {
+    setInterval(repoStatusFunction, 10000)
 }
 
 export default {
@@ -64,20 +68,19 @@ export default {
     },
     computed: {
         showCommitDetails() {
-          console.log("showCommit details")
+            console.log("showCommit details")
             var selectedCommit = this.$store.state.commitArea.selectedCommit;
             return selectedCommit !== undefined && selectedCommit.sha != "";;
         }
     },
-    beforeMount(){
-      var fetchFunction = () => this.$store.dispatch(types.FETCH_REPOSITORY_STATUS);
+    beforeMount() {
+        var fetchFunction = () => this.$store.dispatch(types.FETCH_REPOSITORY_STATUS);
 
-      fetchFunction().then(() => checkForReporitoryStatusUpate(fetchFunction));
+        fetchFunction().then(() => checkForReporitoryStatusUpate(fetchFunction));
 
-      this.$store.dispatch(types.GET_ALL_BRANCHES);
+        this.$store.dispatch(types.GET_ALL_BRANCHES);
     }
 }
-
 </script>
 
 <style lang="scss">@import './shared/variables.scss';
