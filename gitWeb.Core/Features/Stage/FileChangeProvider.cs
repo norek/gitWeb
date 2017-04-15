@@ -17,6 +17,15 @@ namespace gitWeb.Core.Features.Stage
             _repository = repository;
         }
 
+        public void DiscardAllChanges()
+        {
+
+        }
+
+        public void DiscardFileChanges(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath)) throw new ArgumentNullException(nameof(filePath));
+        }
 
         public FileChange GetFileDiff(string filePath)
         {

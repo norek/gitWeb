@@ -44,6 +44,14 @@ const actions = {
     FETCH_REPOSITORY_STATUS({ commit, state }) {
         stagingAPI.fetch_repository_status()
             .then((files) => commit(types.APPLY_REPOSITORY_STATUS, files));
+    },
+    DISCARD_ALL_CHANGES({dispatch}){
+      stagingAPI.discardAllChanges()
+                .then(() => dispatch('FETCH_REPOSITORY_STATUS'));
+    },
+    DISCARD_FILE_CHANGES({dispatch},filePath){
+      stagingAPI.discardFileChanges(filePath)
+                .then(() => dispatch('FETCH_REPOSITORY_STATUS'));
     }
 }
 

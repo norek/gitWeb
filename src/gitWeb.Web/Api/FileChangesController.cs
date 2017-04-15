@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace gitWeb.Web.Api
 {
-    [Route("api/filechange")]
+    [RoutePrefix("api/filechange")]
     public class FileChangesController : ApiController
     {
         private readonly IFileChangeProvider _changeProvider;
@@ -23,6 +23,22 @@ namespace gitWeb.Web.Api
         public IHttpActionResult Get(string path)
         {
             return Ok(_changeProvider.GetFileDiff(path));
+        }
+
+        [HttpPost]
+        [Route("discard/all")]
+        public IHttpActionResult DiscardAll()
+        {
+            _changeProvider.DiscardAllChanges();
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("discard")]
+        public IHttpActionResult DiscardFileChanges(string filePath)
+        {
+            _changeProvider.DiscardFileChanges(filePath);
+            return Ok();
         }
     }
 }

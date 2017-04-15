@@ -27,6 +27,7 @@ export function stageFile(file) {
             });
     });
 }
+
 export function unStageFile(file) {
     return new Promise((resolve, reject) => {
         axios.post('/api/repository/unstage?filePath=' + file)
@@ -51,4 +52,28 @@ export function getListOfHunks(filePath) {
                 reject(error);
             });
     })
+}
+
+export function discardAllChanges(){
+  return new Promise((resolve, reject) => {
+      axios.get('/api/filechange/discardAll')
+          .then(function(response) {
+              resolve();
+          })
+          .catch(function(error) {
+              reject(error);
+          });
+  })
+}
+
+export function discardFileChanges(filePath){
+  return new Promise((resolve, reject) => {
+      axios.get('/api/filechange/discard?filePath=' + filePath)
+          .then(function(response) {
+              resolve();
+          })
+          .catch(function(error) {
+              reject(error);
+          });
+  })
 }

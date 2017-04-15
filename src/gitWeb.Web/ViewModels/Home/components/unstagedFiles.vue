@@ -5,6 +5,7 @@
         <button type="button" v-on:click="stageAll()" class="icon-button">
           <span class="glyphicon glyphicon-triangle-bottom"></span>
         </button>
+        <button v-on:click="discardAllChanges()">Discard All</button>
     </div>
     <table>
         <thead>
@@ -21,6 +22,9 @@
                   </button>
                 </td>
                 <td>{{file.filePath}}</td>
+                <td>
+                  <button v-on:click="discardFileChanges(file)">Discard</button>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -72,6 +76,12 @@ export default {
         selectFile: function(file) {
             this.selectedFile = file;
             this.$store.dispatch(types.FETCH_FILE_CHANGES, file.filePath)
+        },
+        discardAllChanges: function(){
+          this.$store.dispatch(types.DISCARD_ALL_CHANGES);
+        },
+        discardFileChanges: function(file){
+          this.$store.dispatch(types.DISCARD_FILE_CHANGES,file.filePath);
         }
     }
 }
