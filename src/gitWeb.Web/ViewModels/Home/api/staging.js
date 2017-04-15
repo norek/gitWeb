@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export function fetch_repository_status() {
     return new Promise((resolve, reject) => {
         axios.get('/api/repository/status')

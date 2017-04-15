@@ -1,5 +1,5 @@
 import * as graphHelper from './graphHelpers.js';
-
+import * as d3 from 'd3';
 function Node(x,y){
   return new {x:x,y:y};
 }
