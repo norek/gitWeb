@@ -11,10 +11,10 @@ const state = {
 
 const getters = {
   unstagedFiles: state => {
-    return state.repositoryStatus.filter(rs => rs.fileStatus != enums.staged_files);
+    return state.repositoryStatus.filter(rs => !enums.IsStaged(rs.fileStatus));
   },
   stagedFiles: state => {
-    return state.repositoryStatus.filter(rs => rs.fileStatus == enums.staged_files);
+    return state.repositoryStatus.filter(rs => enums.IsStaged(rs.fileStatus));
   }
 }
 

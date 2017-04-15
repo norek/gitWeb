@@ -25,6 +25,7 @@
 <script>
 import * as types from '../store/types'
 
+import * as enums from '../Enums/repositoryEnum'
 export default {
     data() {
         return {
@@ -46,12 +47,23 @@ export default {
             }
             return "";
         },
+        // fileStatusClass(file) {
+        //     if (file.fileStatus == 1) {
+        //         return 'file-removed';
+        //     } else if (file.fileStatus == 2) {
+        //         return 'file-modified';
+        //     } else if (file.fileStatus == 3) {
+        //         return 'file-added';
+        //     } else {
+        //         return '';
+        //     }
+        // },
         fileStatusClass(file) {
-            if (file.fileStatus == 1) {
+            if (file.fileStatus == enums.DeletedFromIndex) {
                 return 'file-removed';
-            } else if (file.fileStatus == 2) {
+            } else if (file.fileStatus == enums.ModifiedInIndex) {
                 return 'file-modified';
-            } else if (file.fileStatus == 3) {
+            } else if (file.fileStatus == enums.NewInIndex) {
                 return 'file-added';
             } else {
                 return '';

@@ -44,7 +44,7 @@ export function unStageFile(file) {
 
 export function getListOfHunks(filePath) {
     return new Promise((resolve, reject) => {
-        axios.get('/api/filechange?path=' + filePath)
+        axios.get('/api/filechange?filePath=' + filePath)
             .then(function(response) {
                 resolve(response.data);
             })

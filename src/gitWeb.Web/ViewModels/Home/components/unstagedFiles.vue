@@ -63,11 +63,11 @@ export default {
             return "";
         },
         fileStatusClass(file) {
-            if (file.fileStatus == 1) {
+            if (file.fileStatus == enums.DeletedFromWorkdir) {
                 return 'file-removed';
-            } else if (file.fileStatus == 2) {
+            } else if (file.fileStatus == enums.ModifiedInWorkdir) {
                 return 'file-modified';
-            } else if (file.fileStatus == 3) {
+            } else if (file.fileStatus == enums.NewInWorkdir) {
                 return 'file-added';
             } else {
                 return '';

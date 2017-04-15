@@ -50,14 +50,8 @@ namespace gitWeb.Core.Features.Stage
         public IEnumerable<RepositoryStatus> GetRepositoryStatus()
         {
             var retrivedStatus = _repository.RetrieveStatus();
-
-            List<RepositoryStatus> repoStatus = new List<RepositoryStatus>();
-            repoStatus.AddRange(retrivedStatus.Added.Select(d => new RepositoryStatus() { FilePath = d.FilePath, FileStatus = 1 }));
-            repoStatus.AddRange(retrivedStatus.Modified.Select(d => new RepositoryStatus() { FilePath = d.FilePath, FileStatus = 2 }));
-            repoStatus.AddRange(retrivedStatus.Removed.Select(d => new RepositoryStatus() { FilePath = d.FilePath, FileStatus = 3 }));
-            repoStatus.AddRange(retrivedStatus.Staged.Select(d => new RepositoryStatus() { FilePath = d.FilePath, FileStatus = 4 }));
-
-            return repoStatus;
+            return retrivedStatus.Where(x => x.State != FileStatus.Ignored)
+                                 .Select(d => new RepositoryStatus() { FilePath = d.FilePath, FileStatus = (int)d.State });
         }
     }
 
