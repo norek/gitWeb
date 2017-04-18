@@ -5,13 +5,12 @@
         <button type="button" v-on:click="stageAll()" class="icon-button">
           <span class="glyphicon glyphicon-triangle-bottom"></span>
         </button>
-        <button v-on:click="discardAllChanges()">Discard All</button>
     </div>
     <table>
         <thead>
         </thead>
         <tbody>
-            <tr v-for="file in unstagedFiles" v-on:click="selectFile(file)" v-bind:class="selected(file)">
+            <tr v-for="file in unstagedFiles" v-bind:class="selected(file)">
                 <td class="column-icon">
                     <span class="glyphicon glyphicon-inbox" v-bind:class="fileStatusClass(file)">
                   </span>
@@ -21,9 +20,9 @@
                     <span class="glyphicon glyphicon-menu-down"></span>
                   </button>
                 </td>
-                <td>{{file.filePath}}</td>
+                <td v-on:click="selectFile(file)" >{{file.filePath}}</td>
                 <td>
-                  <button v-on:click="discardFileChanges(file)">Discard</button>
+                  <button v-on:click="discardFileChanges(file)">{{discardOrRemoveCaption(file)}}</button>
                 </td>
             </tr>
         </tbody>
@@ -44,10 +43,16 @@ export default {
     computed: {
         unstagedFiles() {
             return this.$store.getters.unstagedFiles;
-        }
+        },
+
 
     },
     methods: {
+        discardOrRemoveCaption(file){
+          if(file.fileStatus == enums.NewInWorkdir)
+            return "Remove";
+          return "Discard";
+        },
         stageFile: function(file) {
             this.$store.dispatch(types.STAGE_FILE, file.filePath);
         },

@@ -53,7 +53,7 @@ export function getListOfHunks(filePath) {
 
 export function discardAllChanges(){
   return new Promise((resolve, reject) => {
-      axios.get('/api/filechange/discardAll')
+      axios.post('/api/filechange/discardAll')
           .then(function(response) {
               resolve();
           })
@@ -65,7 +65,7 @@ export function discardAllChanges(){
 
 export function discardFileChanges(filePath){
   return new Promise((resolve, reject) => {
-      axios.get('/api/filechange/discard?filePath=' + filePath)
+      axios.post('/api/filechange/discard?filePath=' + filePath)
           .then(function(response) {
               resolve();
           })

@@ -25,14 +25,6 @@ namespace gitWeb.Web.Api
         }
 
         [HttpPost]
-        [Route("discard/all")]
-        public IHttpActionResult DiscardAll()
-        {
-            _changeProvider.DiscardAllChanges();
-            return Ok();
-        }
-
-        [HttpPost]
         [Route("discard")]
         public IHttpActionResult DiscardFileChanges(string filePath)
         {

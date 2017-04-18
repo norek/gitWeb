@@ -17,14 +17,12 @@ namespace gitWeb.Core.Features.Stage
             _repository = repository;
         }
 
-        public void DiscardAllChanges()
-        {
-
-        }
-
         public void DiscardFileChanges(string filePath)
         {
             if (string.IsNullOrEmpty(filePath)) throw new ArgumentNullException(nameof(filePath));
+
+            var options = new CheckoutOptions { CheckoutModifiers = CheckoutModifiers.Force };
+            _repository.CheckoutPaths(_repository.Head.FriendlyName, new[] { filePath }, options);
         }
 
         public FileChange GetFileDiff(string filePath)

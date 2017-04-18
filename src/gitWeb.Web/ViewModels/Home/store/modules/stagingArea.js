@@ -49,9 +49,11 @@ const actions = {
       stagingAPI.discardAllChanges()
                 .then(() => dispatch('FETCH_REPOSITORY_STATUS'));
     },
-    DISCARD_FILE_CHANGES({dispatch},filePath){
+    DISCARD_FILE_CHANGES({dispatch,commit},filePath){
       stagingAPI.discardFileChanges(filePath)
-                .then(() => dispatch('FETCH_REPOSITORY_STATUS'));
+                .then(() =>
+                {commit("APPLY_FILE_CHANGES",[]);
+                dispatch('FETCH_REPOSITORY_STATUS')});
     }
 }
 
