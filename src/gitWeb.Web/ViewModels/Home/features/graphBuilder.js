@@ -8,187 +8,188 @@ export function build(data) {
     data = data.slice(0, 120);
 
     var i = 0;
-    data.forEach(function(c) {
-        c.id = i++;
-        c.column = 0;
-        c.x = 0;
-        c.y = 40 + c.id * 22
-    });
-
-    function setCommitPosition() {
-        var first = data[0];
-        first.column = 1;
-        first.x = first.column * 20
-        createMainPath(first);
-        assignParentColumn(first);
-    }
-
-    function createMainPath(element) {
-        if (element.parents === undefined || element.parents.Length < 0) return;
-
-        var firstparentsha = element.parents[0];
-
-        var firstParentArray = data.find(x => x.sha === firstparentsha);
-
-        if (firstParentArray === undefined) return;
-
-        var firstParent = firstParentArray;
-        firstParent.column = element.column;
-        firstParent.x = element.column * 20
-        createMainPath(firstParent);
-    }
-
-    var columns = [{
-        i: 2,
-        free: true
-    }];
-
-    function getFreeColumn() {
-        var freeColumn = columns.find(x => x.free === true);
-
-        if (freeColumn !== undefined) {
-            return freeColumn;
-        } else {
-            var maxOfIndex = columns.reduce(function(prev, curr) {
-                return prev.Cost < curr.Cost ? prev : curr;
-            });
-            var newColumn = {
-                i: 0,
-                free: true
-            };
-            newColumn.i = maxOfIndex.i + 1;
-            columns.push(newColumn);
-
-            return newColumn;
-        }
-    }
-
-    function assignParentColumn(child) {
-
-        var parents = data.filter(function(d) {
-            return child.parents.indexOf(d.sha) >= 0
-        });
-
-        if (parents.length <= 0) return;
-
-        var parentsArray = [];
-        for (i = 0; i < child.parents.length; i++) {
-            var parentsha = child.parents[i];
-            var currParent = parents.find(x => x.sha == parentsha);
-
-            if (currParent === undefined) {
-                var fakeParent = {
-                    id: -1
-                }
-                parentsArray.push(fakeParent);
-                continue;
-            };
-
-            parentsArray.push(currParent);
-        }
-
-        for (i = 0; i < parentsArray.length; i++) {
-
-            var currParent = parentsArray[i];
-
-            if (currParent.id == -1) continue;
-
-            if (currParent.column !== 0) continue;
-
-            if (i == 0) {
-                currParent.column = child.column;
-            } else {
-
-                var allChildrenOfCurrentParrent = data.filter(function(d) {
-                    return d.parents.indexOf(currParent.sha) >= 0
-                });
-
-                var otherParent = allChildrenOfCurrentParrent.find(p => p.sha != child.sha);
-
-                if (otherParent !== undefined) {
-                    continue;
-                } else {
-                    var newColumn = getFreeColumn();
-                    currParent.column = newColumn.i;
-                    newColumn.free = false;
-                }
-            }
-
-            currParent.x = currParent.column * 20
-        }
-
-        parentsArray.forEach(function(p) {
-            if (p.id > 0) {
-                assignParentColumn(p)
-            }
-        });
-    }
-
-    setCommitPosition();
+    // data.forEach(function(c) {
+    //     c.id = i++;
+    //     c.column = c.hIndex;
+    //     c.x = c.hIndex * 20;
+    //     c.y = 40 + c.id * 22
+    // });
 
     var links = [];
-    var nodes = [];
+    // var nodes = [];
 
-    for (i = 0; i < data.length; i++) {
+    // for (i = 0; i < data.length; i++) {
+    //
+    //     var curr = data[i];
+    //
+    //     nodes.push({
+    //         sha: curr.sha,
+    //         x: curr.x,
+    //         y: curr.y,
+    //         Orig: true,
+    //         message: curr.message,
+    //         reachableBranches: curr.reachableBranches
+    //     });
+    //
+    //
+    // }
 
-        var curr = data[i];
-
-        nodes.push({
-            sha: curr.sha,
-            x: curr.x,
-            y: curr.y,
-            Orig: true,
-            message: curr.message,
-            reachableBranches: curr.reachableBranches
-        });
-
-        if (curr.parents === undefined) continue;
-        for (var j = 0; j < curr.parents.length; j++) {
-            var currPar = curr.parents[j]
-
-            if (currPar === undefined) continue;
-
-            var exPath = data.find((s) => s.sha == currPar);
-
-
-            if (exPath === undefined) continue;
-
-            if (exPath.column === curr.column) {
-                links.push({
-                    source: curr.sha,
-                    target: currPar,
-                    nodeColumn: exPath.column
-                });
-            } else {
-                var intermidsha = curr.sha + exPath.sha;
-                nodes.push({
-                    sha: intermidsha,
-                    x: exPath.x,
-                    y: curr.y + 10
-                })
-                links.push({
-                    source: curr.sha,
-                    target: intermidsha,
-                    nodeColumn: exPath.column
-                })
-                links.push({
-                    source: intermidsha,
-                    target: currPar,
-                    nodeColumn: exPath.column
-                })
-            }
-        }
-    }
-
-    nodes.unshift({  sha: 'uncommited changes',message: 'uncommited changes',
-      x: 20,
-      y: 18,Orig:true,openCommit:true});
+    // nodes.unshift({  sha: 'uncommited changes',message: 'uncommited changes',
+    //   x: 20,
+    //   y: 18,Orig:true,openCommit:true});
 
     return {
-        nodes,
-        links,
-        data
+        data,
+        links
     };
+    // if (curr.parents === undefined) continue;
+    // for (var j = 0; j < curr.parents.length; j++) {
+    //     var currPar = curr.parents[j]
+    //
+    //     if (currPar === undefined) continue;
+    //
+    //     var exPath = data.find((s) => s.sha == currPar);
+    //
+    //
+    //     if (exPath === undefined) continue;
+    //
+    //     if (exPath.column === curr.column) {
+    //         links.push({
+    //             source: curr.sha,
+    //             target: currPar,
+    //             nodeColumn: exPath.column
+    //         });
+    //     } else {
+    //         var intermidsha = curr.sha + exPath.sha;
+    //         nodes.push({
+    //             sha: intermidsha,
+    //             x: exPath.x,
+    //             y: curr.y + 10
+    //         })
+    //         links.push({
+    //             source: curr.sha,
+    //             target: intermidsha,
+    //             nodeColumn: exPath.column
+    //         })
+    //         links.push({
+    //             source: intermidsha,
+    //             target: currPar,
+    //             nodeColumn: exPath.column
+    //         })
+    //     }
+    // }
+    // function setCommitPosition() {
+    //     var first = data[0];
+    //     first.column = 1;
+    //     first.x = first.column * 20
+    //     createMainPath(first);
+    //     assignParentColumn(first);
+    // }
+    //
+    // function createMainPath(element) {
+    //     if (element.parents === undefined || element.parents.Length < 0) return;
+    //
+    //     var firstparentsha = element.parents[0];
+    //
+    //     var firstParentArray = data.find(x => x.sha === firstparentsha);
+    //
+    //     if (firstParentArray === undefined) return;
+    //
+    //     var firstParent = firstParentArray;
+    //     firstParent.column = element.column;
+    //     firstParent.x = element.column * 20
+    //     createMainPath(firstParent);
+    // }
+    //
+    // var columns = [{
+    //     i: 2,
+    //     free: true
+    // }];
+    //
+    // function getFreeColumn() {
+    //     var freeColumn = columns.find(x => x.free === true);
+    //
+    //     if (freeColumn !== undefined) {
+    //         return freeColumn;
+    //     } else {
+    //         var maxOfIndex = columns.reduce(function(prev, curr) {
+    //             return prev.Cost < curr.Cost ? prev : curr;
+    //         });
+    //         var newColumn = {
+    //             i: 0,
+    //             free: true
+    //         };
+    //         newColumn.i = maxOfIndex.i + 1;
+    //         columns.push(newColumn);
+    //
+    //         return newColumn;
+    //     }
+    // }
+
+    // function assignParentColumn(child) {
+    //
+    //     var parents = data.filter(function(d) {
+    //         return child.parents.indexOf(d.sha) >= 0
+    //     });
+    //
+    //     if (parents.length <= 0) return;
+    //
+    //     var parentsArray = [];
+    //     for (i = 0; i < child.parents.length; i++) {
+    //         var parentsha = child.parents[i];
+    //         var currParent = parents.find(x => x.sha == parentsha);
+    //
+    //         if (currParent === undefined) {
+    //             var fakeParent = {
+    //                 id: -1
+    //             }
+    //             parentsArray.push(fakeParent);
+    //             continue;
+    //         };
+    //
+    //         parentsArray.push(currParent);
+    //     }
+    //
+    //     for (i = 0; i < parentsArray.length; i++) {
+    //
+    //         var currParent = parentsArray[i];
+    //
+    //         if (currParent.id == -1) continue;
+    //
+    //         if (currParent.column !== 0) continue;
+    //
+    //         if (i == 0) {
+    //             currParent.column = child.column;
+    //         } else {
+    //
+    //             var allChildrenOfCurrentParrent = data.filter(function(d) {
+    //                 return d.parents.indexOf(currParent.sha) >= 0
+    //             });
+    //
+    //             var otherParent = allChildrenOfCurrentParrent.find(p => p.sha != child.sha);
+    //
+    //             if (otherParent !== undefined) {
+    //                 continue;
+    //             } else {
+    //                 var newColumn = getFreeColumn();
+    //                 currParent.column = newColumn.i;
+    //                 newColumn.free = false;
+    //             }
+    //         }
+    //
+    //         currParent.x = currParent.column * 20
+    //     }
+    //
+    //     parentsArray.forEach(function(p) {
+    //         if (p.id > 0) {
+    //             assignParentColumn(p)
+    //         }
+    //     });
+    // }
+
+    // setCommitPosition();
+
+
 }
 
 export function draw(nodes, links) {
@@ -196,7 +197,7 @@ export function draw(nodes, links) {
     var svg = d3.select("svg");
     svg.selectAll("*").remove();
     var groups = svg.selectAll("g")
-        .data(nodes.filter((d) => d.Orig === true))
+        .data(nodes)
         .enter()
         .append("g")
         .attr("id",(d) => {return d.sha})

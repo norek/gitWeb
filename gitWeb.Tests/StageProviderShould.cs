@@ -25,22 +25,22 @@ namespace gitWeb.Tests
             Assert.Throws<ArgumentException>(() => new StagingAreaProvider(null));
         }
 
-        [Fact]
-        public void ThrowsAnException_WhenParamIsNull_CallStageMethod()
-        {
-            IRepository repo = NSubstitute.Substitute.For<IRepository>();
-            var provider = new StagingAreaProvider(repo);
+        //[Fact]
+        //public void ThrowsAnException_WhenParamIsNull_CallStageMethod()
+        //{
+        //    IRepository repo = NSubstitute.Substitute.For<IRepository>();
+        //    var provider = new StagingAreaProvider(repo);
 
-            Assert.Throws<ArgumentException>(() => provider.Stage(null));
-        }
+        //    Assert.Throws<ArgumentException>(() => provider.Stage(null));
+        //}
 
-        [Fact]
-        public void ThrowsAnException_WhenParamIsNull_CallUnStageMethod()
-        {
-            IRepository repo = NSubstitute.Substitute.For<IRepository>();
-            var provider = new StagingAreaProvider(repo);
+        //[Fact]
+        //public void ThrowsAnException_WhenParamIsNull_CallUnStageMethod()
+        //{
+        //    IRepository repo = NSubstitute.Substitute.For<IRepository>();
+        //    var provider = new StagingAreaProvider(repo);
 
-            Assert.Throws<ArgumentException>(() => provider.UnStage(null));
-        }
+        //    Assert.Throws<ArgumentException>(() => provider.UnStage(null));
+        //}
     }
 }

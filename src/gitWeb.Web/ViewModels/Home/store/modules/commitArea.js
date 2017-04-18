@@ -25,7 +25,8 @@ const actions = {
     },
     GET_COMMIT_TREE_FROM_HEAD({commit}){
       return commitApi.getAllFromHead()
-               .then((commitTree) => commit('SET_COMMIT_TREE',commitTree));
+               .then((commitTree) =>
+               commit('SET_COMMIT_TREE',commitTree));
     },
     GET_COMMIT_TREE_FROM_TIP({commit},tipSha){
       return commitApi.getAllFromBranchTip(tipSha)

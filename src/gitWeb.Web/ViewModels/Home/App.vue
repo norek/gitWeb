@@ -16,7 +16,7 @@
                     <li><a href="#">Messages</a></li>
                 </ul> </div>
         </nav>
-        <div class="row full-height">
+        <div class="row">
             <div class="col-md-2">
                 <branches></branches>
                 <tags></tags>
@@ -74,6 +74,7 @@ export default {
         }
     },
     beforeMount() {
+      console.log("xxx");
         var fetchFunction = () => this.$store.dispatch(types.FETCH_REPOSITORY_STATUS);
 
         fetchFunction().then(() => checkForReporitoryStatusUpate(fetchFunction));

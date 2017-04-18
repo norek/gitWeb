@@ -1,133 +1,55 @@
-﻿using LibGit2Sharp;
+﻿using gitWeb.Core.Features.Commit;
+using gitWeb.Core.GraphBuilder;
+using LibGit2Sharp;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Commit = gitWeb.Core.Features.Commit.Commit;
 
 namespace FastProtoProject
 {
     class Program
     {
+        private static Stopwatch stopwatch = new Stopwatch();
         static void Main(string[] args)
         {
 
-            using (var repo = new Repository(@"C:\inPOS"))
+            //using (var repo = new Repository(@"C:\Projects\Own\git_test_repo"))
+            using (var repo = new Repository(@"C:\Projects\Taksonomia"))
             {
-                //Get reference of head
-                GetLocalBranchesMergedToHead(repo);
+                stopwatch.Start();
+                ICommitProvider provider = new CommitProvider(repo);
+                Commit[] commits = provider.GetAllFromHead().Take(400).ToArray();
+                stopwatch.StopAndLog("GetCommits");
+
+                stopwatch.Start();
+                GraphBuilder sd = new GraphBuilder();
+                sd.Build(commits);
+                stopwatch.StopAndLog("Build");
 
 
-
-
-
-
-                //foreach (var item in localHeadsContainingTheCommit)
+                //foreach (var commit in commits)
                 //{
-
+                //    Console.WriteLine(commit);
                 //}
-
-                //var ss = localHeadsContainingTheCommit.Select(branchRef => repo.Branches[branchRef.CanonicalName]);
-
-                //Console.WriteLine(ss.Select(d => d.CanonicalName));
-
-                //var RFC2822Format = "ddd dd MMM HH:mm:ss yyyy K";
-
-                //int identity = 0;
-
-                //var labels  = repo.Commits.Take(50).Select(d => new Label(d.Sha, d.Message, d.Author.When.Date, d.Parents.Select(dd => dd.Sha).ToArray())).ToList();
-
-                //var jsonLabels = JsonConvert.SerializeObject(labels);
-
-                ////foreach (var label in labels)
-                ////{
-                ////    foreach (var pLabel in label.Parents)
-                ////    {
-                ////        var parent = labels.SingleOrDefault(d => d.Sha == pLabel);
-
-                ////        label.SetParents(parent);
-
-                ////        //if (parent != null)
-                ////        //{
-                ////        //    parent.AddChild(label);
-                ////        //}
-                ////    }
-                ////}
-
-
-                //var s = JsonConvert.SerializeObject(labels);
-
-
-                //foreach (var comm in labels)
-                //{
-                //    Console.WriteLine(comm);
-                //}
-
-
-                //var w = JsonConvert.SerializeObject(links);
             }
-
-
 
             Console.ReadLine();
         }
+    }
 
-        private static void GetLocalBranchesMergedToHead(Repository repo)
+    public static class Extensions
+    {
+        public static void StopAndLog(this Stopwatch watch,string text)
         {
-            var headRef = repo.Refs.Where(r => r.CanonicalName == repo.Head.CanonicalName);
-
-            //get only local branches
-            var tips = repo.Branches.Where(d => !d.IsRemote).Select(x => x.Tip).ToList();
-            //check if local branch tip is rechable from HEAD
-            var refs = repo.Refs.ReachableFrom(headRef, tips);
-
-            if (refs.Any())
-            {
-                //This branch was merged
-            }
-        }
-
-        class Label
-        {
-            public override string ToString()
-            {
-                return $"{Sha}";
-            }
-
-
-            public Label(string id, string name, DateTime date, string[] shaParens)
-            {
-                Sha = id;
-                Name = name;
-                Date = date;
-                Parents = shaParens;
-                Childrens = new List<Label>();
-                ParentsX = new List<Label>();
-            }
-
-            [JsonIgnore]
-            public List<Label> Childrens { get; set; }
-            [JsonIgnore]
-
-            public List<Label> ParentsX { get; set; }
-
-            public void AddChild(Label d)
-            {
-                Childrens.Add(d);
-            }
-
-            internal void SetParents(Label parent)
-            {
-                ParentsX.Add(parent);
-            }
-
-            public string[] Parents { get; set; }
-
-            public string Sha { get; set; }
-            public string Name { get; private set; }
-            public DateTime Date { get; private set; }
+            watch.Stop();
+            Console.WriteLine(text + " -- " + watch.ElapsedMilliseconds);
+            watch.Reset();
         }
     }
 }

@@ -3,6 +3,8 @@ using LibGit2Sharp;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using gitWeb.Core.GraphBuilder;
+using Newtonsoft.Json;
 
 namespace gitWeb.Core.Features.Commit
 {
@@ -34,13 +36,16 @@ namespace gitWeb.Core.Features.Commit
         public IEnumerable<Commit> GetAllFromHead()
         {
             var commits = _repository.Commits
+                .Take(50)
                                 .Select(d =>
                                             new Commit()
                                             {
                                                 Date = d.Committer.When.Date,
                                                 Name = d.Message,
-                                                Parents = d.Parents.Select(p => p.Sha),
+                                                Parents = d.Parents.Select(p => p.Sha).ToList(),
+                                                ParentsIds = d.Parents.Select(p => p.Id).ToList(),
                                                 Sha = d.Sha,
+                                                Id = d.Id,
                                                 Message = d.MessageShort
                                             }).ToList();
 
@@ -56,6 +61,9 @@ namespace gitWeb.Core.Features.Commit
                 }
             }
 
+            GraphBuilder.GraphBuilder builder = new GraphBuilder.GraphBuilder();
+            builder.Build(commits.ToArray());
+
             return commits;
 
         }
@@ -68,10 +76,10 @@ namespace gitWeb.Core.Features.Commit
                                        {
                                            Date = d.Committer.When.Date,
                                            Name = d.Message,
-                                           Parents = d.Parents.Select(p => p.Sha),
+                                           Parents = d.Parents.Select(p => p.Sha).ToList(),
                                            Sha = d.Sha,
                                            Message = d.MessageShort
-                                       }).ToList();
+                                       }).Take(30).ToList();
 
             foreach (var branch in _repository.Branches)
             {
@@ -85,6 +93,10 @@ namespace gitWeb.Core.Features.Commit
                 }
             }
 
+            
+            GraphBuilder.GraphBuilder builder = new GraphBuilder.GraphBuilder();
+            builder.Build(commits.ToArray());
+            
             return commits;
         }
 
@@ -99,7 +111,7 @@ namespace gitWeb.Core.Features.Commit
             var commitParent = commit.Parents.Last();
 
             TreeChanges treeChanges = _repository.Diff.Compare<TreeChanges>(commitParent.Tree, commit.Tree);
-            
+
             CommitDetail commitDetail = new CommitDetail(sha, commit.Message, commit.Author.Name, commit.Author.When.Date);
             commitDetail.Files.AddRange(treeChanges.Select(s => new CommitFile((int)s.Status, s.Path, Path.GetFileName(s.Path))));
             //commitDetail.Files.AddRange(treeChanges.Modified.Select(s => new CommitFile((int)s.Status, s.Path, Path.GetFileName(s.Path))));
@@ -116,8 +128,13 @@ namespace gitWeb.Core.Features.Commit
             ReachableBranches = new List<string>();
         }
 
+        public int HIndex { get; private set; }
+
         public string Sha { get; set; }
+
+        [JsonIgnore]
         public IEnumerable<string> Parents { get; set; }
+
         public string Name { get; set; }
         public DateTime Date { get; set; }
 
@@ -133,5 +150,52 @@ namespace gitWeb.Core.Features.Commit
             }
         }
 
+        [JsonIgnore]
+        public Commit[] CommitParents { get; set; }
+        public ObjectId Id { get; set; }
+        [JsonIgnore]
+        public IEnumerable<ObjectId> ParentsIds { get; set; }
+
+        internal void AssignParents(Commit[] currCommitParents)
+        {
+            List<Commit> orderedCommits = new List<Commit>();
+
+            if (currCommitParents.Length > 1)
+            {
+                foreach (var parentSha in Parents)
+                {
+                    var parent = currCommitParents.First(s => s.Sha == parentSha);
+                    orderedCommits.Add(parent);
+                }
+
+                CommitParents = orderedCommits.ToArray();
+
+            }
+            else
+            {
+                CommitParents = currCommitParents;
+
+            }
+
+        }
+
+        public override string ToString() => Sha + "Index: " + HIndex;
+
+        public void SetVIndex(int index)
+        {
+            VIndex = index;
+            Y = 40 + index * 22;
+        }
+
+        public void SetHIndex(int index)
+        {
+            HIndex = index;
+            X = HIndex*20;
+        }
+
+        public int VIndex { get; private set; }
+
+        public int X { get; private set; }
+        public int Y { get; private set; }
     }
 }

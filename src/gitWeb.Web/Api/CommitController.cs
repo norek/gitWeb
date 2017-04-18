@@ -27,7 +27,6 @@ namespace gitWeb.Web.Api
         [HttpGet]
         public IHttpActionResult GetAll()
         {
-
             return Ok(_commitProvider.GetAllFromHead());
         }
 

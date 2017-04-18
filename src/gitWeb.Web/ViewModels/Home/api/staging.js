@@ -4,7 +4,6 @@ export function fetch_repository_status() {
     return new Promise((resolve, reject) => {
         axios.get('/api/repository/status')
             .then(function(response) {
-                console.log(response.data);
                 resolve(response.data);
             })
             .catch(function(error) {
@@ -18,7 +17,6 @@ export function stageFile(file) {
     return new Promise((resolve, reject) => {
         axios.post('/api/repository/stage?filePath=' + file)
             .then(function(response) {
-                console.log(response);
                 resolve(response);
             })
             .catch(function(error) {
@@ -32,7 +30,6 @@ export function unStageFile(file) {
     return new Promise((resolve, reject) => {
         axios.post('/api/repository/unstage?filePath=' + file)
             .then(function(response) {
-                console.log(response);
                 resolve(response);
             })
             .catch(function(error) {

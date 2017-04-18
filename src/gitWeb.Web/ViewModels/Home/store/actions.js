@@ -7,7 +7,7 @@ export const CHECKOUT_BRANCH_All = ({dispatch,state}, branchName) => {
 
         dispatch(types.GET_COMMIT_TREE_FROM_HEAD).then(() => {
           var elements = graphBuilder.build(state.commitArea.commitTree);
-          graphBuilder.draw(elements.nodes, elements.links);
+          graphBuilder.draw(state.commitArea.commitTree, []);
 
         }));
 }
@@ -17,8 +17,7 @@ export const COMMIT = ({dispatch,state,commit}, commitMessage) => {
             .then(() => {
               commit("APPLY_FILE_CHANGES",[]);
               dispatch(types.GET_COMMIT_TREE_FROM_HEAD).then(() => {
-                  var elements = graphBuilder.build(state.commitArea.commitTree);
-                  graphBuilder.draw(elements.nodes, elements.links);
+                    graphBuilder.draw(state.commitArea.commitTree, []);
                     graphBuilder.onCommitClick(commitClick);
               });
               dispatch(types.FETCH_REPOSITORY_STATUS);
