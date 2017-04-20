@@ -14,6 +14,7 @@ namespace gitWeb.Tests
     public class GraphBuilderShould
     {
         public int XIndexOfMainPath = 1;
+        private readonly CommitCreator _commitCreator = new CommitCreator();
 
         /// <summary>
         /// Tree
@@ -22,9 +23,9 @@ namespace gitWeb.Tests
         [Fact]
         public void ForEveryCommit_FromMainPath_AssignXIndex_Equals_One()
         {
-            var commit3 = CreateNewCommit();
-            var commit2 = CreateNewCommit(commit3.Sha);
-            var commit1 = CreateNewCommit(commit2.Sha);
+            var commit3 = _commitCreator.CreateNewCommit();
+            var commit2 = _commitCreator.CreateNewCommit(commit3.Sha);
+            var commit1 = _commitCreator.CreateNewCommit(commit2.Sha);
 
             var commitCollection = new Commit[3] { commit1, commit2, commit3 };
 
@@ -43,10 +44,10 @@ namespace gitWeb.Tests
         [Fact]
         public void CreateBranch_WithNextHIndexLevel()
         {
-            var branchCommit = CreateNewCommit();
-            var commit3 = CreateNewCommit();
-            var commit2 = CreateNewCommit(commit3.Sha, branchCommit.Sha);
-            var commit1 = CreateNewCommit(commit2.Sha);
+            var branchCommit = _commitCreator.CreateNewCommit();
+            var commit3 = _commitCreator.CreateNewCommit();
+            var commit2 = _commitCreator.CreateNewCommit(commit3.Sha, branchCommit.Sha);
+            var commit1 = _commitCreator.CreateNewCommit(commit2.Sha);
 
             var commitCollection = new[] { commit1, commit2, commit3, branchCommit };
 
@@ -68,11 +69,11 @@ namespace gitWeb.Tests
         [Fact]
         public void CreateBranch_WithNextHIndexLevel_AndParentOfNewBranchShouldBeSameLevelAsChild()
         {
-            var parentOfBranchCommit = CreateNewCommit();
-            var branchCommit = CreateNewCommit(parentOfBranchCommit.Sha);
-            var commit3 = CreateNewCommit();
-            var commit2 = CreateNewCommit(commit3.Sha, branchCommit.Sha);
-            var commit1 = CreateNewCommit(commit2.Sha);
+            var parentOfBranchCommit = _commitCreator.CreateNewCommit();
+            var branchCommit = _commitCreator.CreateNewCommit(parentOfBranchCommit.Sha);
+            var commit3 = _commitCreator.CreateNewCommit();
+            var commit2 = _commitCreator.CreateNewCommit(commit3.Sha, branchCommit.Sha);
+            var commit1 = _commitCreator.CreateNewCommit(commit2.Sha);
 
             var commitCollection = new[] { commit1, commit2, commit3, branchCommit, parentOfBranchCommit };
 
@@ -97,12 +98,12 @@ namespace gitWeb.Tests
         public void CreateBranch_SetSecondColumn_AfterMerge_CreateNewBranch_AndAlsoGiveSecondColumn()
         {
 
-            var branchCommit = CreateNewCommit();
-            var branchAfterMerge = CreateNewCommit();
-            var commit1 = CreateNewCommit();
-            var commit2 = CreateNewCommit(commit1.Sha, branchAfterMerge.Sha);
-            var commit3 = CreateNewCommit(commit2.Sha, branchCommit.Sha);
-            var commit4 = CreateNewCommit(commit3.Sha);
+            var branchCommit = _commitCreator.CreateNewCommit();
+            var branchAfterMerge = _commitCreator.CreateNewCommit();
+            var commit1 = _commitCreator.CreateNewCommit();
+            var commit2 = _commitCreator.CreateNewCommit(commit1.Sha, branchAfterMerge.Sha);
+            var commit3 = _commitCreator.CreateNewCommit(commit2.Sha, branchCommit.Sha);
+            var commit4 = _commitCreator.CreateNewCommit(commit3.Sha);
 
             branchCommit.Parents = new List<string>() { commit2.Sha };
             branchCommit.ParentsIds = new List<ObjectId>() { new ObjectId(commit2.Sha) };
@@ -133,11 +134,11 @@ namespace gitWeb.Tests
         public void AddThirdStage_WhenAreTwobranchesFromOneNode()
         {
 
-            var branchCommit = CreateNewCommit();
-            var secondBranch = CreateNewCommit();
-            var commit1 = CreateNewCommit();
-            var commit3 = CreateNewCommit(commit1.Sha, branchCommit.Sha, secondBranch.Sha);
-            var commit4 = CreateNewCommit(commit3.Sha);
+            var branchCommit = _commitCreator.CreateNewCommit();
+            var secondBranch = _commitCreator.CreateNewCommit();
+            var commit1 = _commitCreator.CreateNewCommit();
+            var commit3 = _commitCreator.CreateNewCommit(commit1.Sha, branchCommit.Sha, secondBranch.Sha);
+            var commit4 = _commitCreator.CreateNewCommit(commit3.Sha);
 
             var commitCollection = new[] { commit4, commit3, commit1, branchCommit, secondBranch };
 
@@ -153,14 +154,49 @@ namespace gitWeb.Tests
 
         }
 
+        /// <summary>
+        ///  /*3--/*4---
+        /// *1---*2--
+        /// </summary>
+        [Fact]
+        public void
+            WhenCommitHasTwoChilder_andFirstChildIsOnMainBranch_AndSeconIsOnSecond_BuilderShould_AssignSecondIndexOfCommitOnSecondBranchToCommit()
+        {
+            var mainCommit1_1 = _commitCreator.CreateNewCommit();
+            var mainCommit2_2 = _commitCreator.CreateNewCommit();
+            var mainCommit2_3 = _commitCreator.CreateNewCommit();
+
+            var branchFromMainCommit1_3 = _commitCreator.CreateNewCommit();
+            var branchFromMainCommit2AndParentOf_4 = _commitCreator.CreateNewCommit();
+
+            mainCommit1_1.Parents.Add(mainCommit2_2.Sha);
+            mainCommit1_1.Parents.Add(branchFromMainCommit1_3.Sha);
+
+
+            branchFromMainCommit1_3.Parents.Add(branchFromMainCommit2AndParentOf_4.Sha);
+            mainCommit2_2.Parents.Add(mainCommit2_3.Sha);
+            mainCommit2_2.Parents.Add(branchFromMainCommit2AndParentOf_4.Sha);
+
+            Commit[] commits = new Commit[] { mainCommit1_1 , branchFromMainCommit1_3, mainCommit2_2, branchFromMainCommit2AndParentOf_4, mainCommit2_3 };
+
+            GraphBuilder vrlBuilder = new GraphBuilder();
+            vrlBuilder.Build(commits);
+
+            Assert.Equal(1, mainCommit1_1.HIndex);
+            Assert.Equal(1, mainCommit2_2.HIndex);
+            Assert.Equal(1, mainCommit2_3.HIndex);
+            Assert.Equal(2, branchFromMainCommit1_3.HIndex);
+            Assert.Equal(2,branchFromMainCommit2AndParentOf_4.HIndex);
+        }
+
 
         public void WhenInMainPathIs_CommitWithTwoParents_SescondParentShouldHave_XIndexEqualsTwo()
         {
-            var commit_FromOtherBranch = CreateNewCommit();
+            var commit_FromOtherBranch = _commitCreator.CreateNewCommit();
 
-            var InitialCommit = CreateNewCommit();
-            var secondCommit = CreateNewCommit(InitialCommit.Sha);
-            var third = CreateNewCommit(secondCommit.Sha, commit_FromOtherBranch.Sha);
+            var InitialCommit = _commitCreator.CreateNewCommit();
+            var secondCommit = _commitCreator.CreateNewCommit(InitialCommit.Sha);
+            var third = _commitCreator.CreateNewCommit(secondCommit.Sha, commit_FromOtherBranch.Sha);
 
 
             var commitCollection = new[] { InitialCommit, secondCommit, third };
@@ -170,32 +206,6 @@ namespace gitWeb.Tests
 
             Assert.True(commitCollection.All(d => d.HIndex == XIndexOfMainPath));
 
-        }
-
-        private string ShaCreator()
-        {
-            string sha = string.Empty;
-
-            for (int i = 0; i < 2; i++)
-            {
-                sha += Guid.NewGuid().ToString();
-            }
-
-            return sha.Replace("-", "").Substring(0, 40);
-        }
-
-        private Commit CreateNewCommit(params string[] parents)
-        {
-            var newSha = ShaCreator();
-            var commit = new Commit
-            {
-                Sha = newSha,
-                Id = new ObjectId(newSha),
-                ParentsIds = parents.Select(p => new ObjectId(p)),
-                Parents = parents
-            };
-
-            return commit;
         }
     }
 }

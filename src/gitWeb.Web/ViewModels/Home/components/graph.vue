@@ -23,7 +23,7 @@ export default {
                 .then(() => {
                     var tBuild = performance.now();
                     console.time("draw");
-                    graphBuilder.draw(this.$store.state.commitArea.commitTree, []);
+                    graphBuilder.draw(this.$store.state.commitArea.commitTree.commits, this.$store.state.commitArea.commitTree.links);
                     console.timeEnd("draw");
 
                     graphBuilder.onCommitClick(commitClick);

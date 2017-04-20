@@ -36,11 +36,11 @@ namespace gitWeb.Core.Features.Commit
         public IEnumerable<Commit> GetAllFromHead()
         {
             var commits = _repository.Commits
-                .Take(50)
+                                //.Take(50)
                                 .Select(d =>
                                             new Commit()
                                             {
-                                                Date = d.Committer.When.Date,
+                                                Date = d.Committer.When.DateTime,
                                                 Name = d.Message,
                                                 Parents = d.Parents.Select(p => p.Sha).ToList(),
                                                 ParentsIds = d.Parents.Select(p => p.Id).ToList(),
@@ -61,8 +61,6 @@ namespace gitWeb.Core.Features.Commit
                 }
             }
 
-            GraphBuilder.GraphBuilder builder = new GraphBuilder.GraphBuilder();
-            builder.Build(commits.ToArray());
 
             return commits;
 
@@ -74,7 +72,7 @@ namespace gitWeb.Core.Features.Commit
                            .Select(d =>
                                        new Commit()
                                        {
-                                           Date = d.Committer.When.Date,
+                                           Date = d.Committer.When.DateTime,
                                            Name = d.Message,
                                            Parents = d.Parents.Select(p => p.Sha).ToList(),
                                            Sha = d.Sha,
@@ -93,10 +91,10 @@ namespace gitWeb.Core.Features.Commit
                 }
             }
 
-            
+
             GraphBuilder.GraphBuilder builder = new GraphBuilder.GraphBuilder();
             builder.Build(commits.ToArray());
-            
+
             return commits;
         }
 
@@ -123,6 +121,9 @@ namespace gitWeb.Core.Features.Commit
 
     public class Commit
     {
+        public bool handled;
+        public bool skipped;
+
         public Commit()
         {
             ReachableBranches = new List<string>();
@@ -133,7 +134,7 @@ namespace gitWeb.Core.Features.Commit
         public string Sha { get; set; }
 
         [JsonIgnore]
-        public IEnumerable<string> Parents { get; set; }
+        public List<string> Parents { get; set; }
 
         public string Name { get; set; }
         public DateTime Date { get; set; }
@@ -190,12 +191,20 @@ namespace gitWeb.Core.Features.Commit
         public void SetHIndex(int index)
         {
             HIndex = index;
-            X = HIndex*20;
+            X = HIndex * 20;
         }
 
         public int VIndex { get; private set; }
 
         public int X { get; private set; }
-        public int Y { get; private set; }
+        public int Y { get; set; }
+
+        public void SetHIndex(int id, int index)
+        {
+            SetHIndex(id);
+            ColumnInternalIndex = index;
+        }
+
+        public int ColumnInternalIndex { get; private set; }
     }
 }

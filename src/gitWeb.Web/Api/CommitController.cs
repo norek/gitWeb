@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using gitWeb.Core.GraphBuilder;
 
 namespace gitWeb.Web.Api
 {
@@ -27,7 +28,16 @@ namespace gitWeb.Web.Api
         [HttpGet]
         public IHttpActionResult GetAll()
         {
-            return Ok(_commitProvider.GetAllFromHead());
+            var commits = _commitProvider.GetAllFromHead().Take(1000);
+
+            Core.GraphBuilder.GraphBuilder builder = new Core.GraphBuilder.GraphBuilder();
+            var commitArray = commits.ToArray();
+            builder.Build(commitArray);
+
+            LinkBuilder linkBuilder = new LinkBuilder();
+            var links = linkBuilder.Build(commitArray.ToDictionary(k => k.Sha,v => v));
+
+            return Ok(new { commits, links });
         }
 
         [HttpGet]

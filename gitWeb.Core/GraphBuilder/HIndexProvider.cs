@@ -4,35 +4,53 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibGit2Sharp;
 
 namespace gitWeb.Core.GraphBuilder
 {
     public class HIndexProvider
     {
-        private readonly Dictionary<int, bool> _Hindex = new Dictionary<int, bool>();
-        private int _maxIndex = 1;
+        //private readonly Dictionary<int, bool> _Hindex = new Dictionary<int, bool>();
+        private readonly List<ColumnsReservation> _Hindex = new List<ColumnsReservation>();
+        private int index = 1;
         public HIndexProvider()
         {
-            _Hindex.Add(_maxIndex, false);
+            _Hindex.Add(new ColumnsReservation(index, 1, DateTime.MaxValue, DateTime.MinValue));
         }
 
 
-        public int GetFreeIndex()
+        public dynamic GetFreeIndex(DateTime commitDate)
         {
-            var freeIndex = _Hindex.FirstOrDefault(d => d.Value);
+            var reservedColumn = _Hindex.Where(d => (d.StartDate >= commitDate && !d.EndDate.HasValue) ||
+            (d.StartDate >= commitDate && d.EndDate.Value < commitDate)).OrderByDescending(s => s.Id).First();
 
-            if (freeIndex.Key == 0)
-            {
-                _maxIndex++;
-                _Hindex.Add(_maxIndex, false);
-            }
+            index++;
+            var newReservedColumn = new ColumnsReservation(index, reservedColumn.Id + 1, commitDate, null);
+            _Hindex.Add(newReservedColumn);
 
-            return _maxIndex;
+            return new { newReservedColumn.Id, newReservedColumn.Index };
         }
 
-        public void ReleaseIndex(int hIndex)
+        public void ReleaseIndex(int hIndex, DateTime commitDate)
         {
-            _Hindex[hIndex] = true;
+            var columnToRelease = _Hindex.Single(d => d.Index == hIndex);
+            columnToRelease.EndDate = commitDate;
         }
+    }
+
+    internal class ColumnsReservation
+    {
+        public ColumnsReservation(int index, int id, DateTime startDate, DateTime? endDate)
+        {
+            Index = index;
+            Id = id;
+            StartDate = startDate;
+            EndDate = endDate;
+        }
+
+        public int Index { get; set; }
+        public int Id { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

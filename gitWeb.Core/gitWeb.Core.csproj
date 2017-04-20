@@ -76,6 +76,8 @@
     <Compile Include="Formatters\Line.cs" />
     <Compile Include="GraphBuilder\GraphBuilder.cs" />
     <Compile Include="GraphBuilder\HIndexProvider.cs" />
+    <Compile Include="GraphBuilder\Link.cs" />
+    <Compile Include="GraphBuilder\LinkBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Features\Status\StatusProvider.cs" />
     <Compile Include="RepositoryFactory.cs" />

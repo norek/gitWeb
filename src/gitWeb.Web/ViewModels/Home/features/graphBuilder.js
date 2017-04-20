@@ -193,7 +193,8 @@ export function build(data) {
 }
 
 export function draw(nodes, links) {
-
+  console.log(nodes);
+  console.log(links);
     var svg = d3.select("svg");
     svg.selectAll("*").remove();
     var groups = svg.selectAll("g")
@@ -257,21 +258,15 @@ export function draw(nodes, links) {
         .enter()
         .append("line")
         .attr("x1", function(l) {
-            var sourceNode = nodes.filter(function(d, i) {
-                return d.sha == l.target;
-            })[0];
-            d3.select(this).attr("y1", sourceNode.y);
-            return sourceNode.x
+            d3.select(this).attr("y1", l.y1);
+            return l.x1
         })
         .attr("x2", function(l) {
-            var targetNode = nodes.filter(function(d, i) {
-                return d.sha == l.source;
-            })[0];
-            d3.select(this).attr("y2", targetNode.y);
-            return targetNode.x
+          d3.select(this).attr("y2", l.y2);
+          return l.x2
         })
         .attr("stroke", function(d) {
-            return graphHelper.pickupColor(d.nodeColumn);
+            return graphHelper.pickupColor(d.targetHIndex);
         })
         .classed("commit-link", true);
 
