@@ -120,7 +120,12 @@
     <Compile Include="Graph\CommitCreator.cs" />
     <Compile Include="Graph\GraphBuilderShould.cs" />
     <Compile Include="Graph\GraphBuilderTest.cs" />
-    <Compile Include="Graph\NodeBuilderShould.cs" />
+    <Compile Include="Graph\LinkBuilder\LinkBuilderTest_ArrayApproach_WithFind.cs" />
+    <Compile Include="Graph\LinkBuilder\LinkBuilderTest_ArrayApproach_WithForLoops.cs" />
+    <Compile Include="Graph\LinkBuilder\LinkBuilderTest_WithClassicApproachWithToList.cs" />
+    <Compile Include="Graph\LinkBuilder\LinkBuilderTest_ForDicrionaryApproach.cs" />
+    <Compile Include="Graph\LinkBuilder\LinkBuilderTest_ClassicApproach.cs" />
+    <Compile Include="Graph\LinkBuilder\LinkBuilderTest_ArrayApproach_withLinq.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryPathValdiator.cs" />
     <Compile Include="StageProviderShould.cs" />

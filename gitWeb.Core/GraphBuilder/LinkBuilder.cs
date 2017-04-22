@@ -63,7 +63,7 @@ namespace gitWeb.Core.GraphBuilder
             return links;
         }
 
-        public List<Link> BuildSexiLinqChain(List<Commit> commits)
+        public List<Link> Build_ClassicApproach_WithToList(List<Commit> commits)
         {
             List<Link> links = new List<Link>();
             List<Commit> inetrCommits = new List<Commit>();
@@ -155,7 +155,6 @@ namespace gitWeb.Core.GraphBuilder
             foreach (var currentCommit in arrayOfCommits)
             {
                 var parents = Array.FindAll(arrayOfCommits, s => currentCommit.Parents.Contains(s.Sha));
-                //var parents = arrayOfCommits.Where(d => currentCommit.Parents.Contains(d.Sha));
 
                 foreach (var parent in parents)
                 {

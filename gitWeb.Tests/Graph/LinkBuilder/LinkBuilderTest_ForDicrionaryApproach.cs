@@ -9,7 +9,7 @@ using Xunit;
 
 namespace gitWeb.Tests.Graph
 {
-    public class LinkBuilderTest
+    public class LinkBuilderTest_ForDicrionaryApproach
     {
         private readonly CommitCreator _commitCreator = new CommitCreator();
         private readonly LinkBuilder _linkBuilder = new LinkBuilder();

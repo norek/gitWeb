@@ -12,8 +12,8 @@ using Commit = gitWeb.Core.Features.Commit.Commit;
 
 namespace FastProtoProject
 {
-    //[MemoryDiagnoser]
-    //[InliningDiagnoser]
+    [MemoryDiagnoser]
+    [InliningDiagnoser]
     public class LinkCollectionBenchmark : IDisposable
     {
         private ICommitProvider _provider;
@@ -32,9 +32,9 @@ namespace FastProtoProject
         [Setup]
         public void SetUpCommits()
         {
-            _ListOfCommits = _provider.GetAllFromHead().OrderBy(a => Guid.NewGuid()).ToList();
-            _DictionaryListOfCommits = _ListOfCommits.OrderBy(a => Guid.NewGuid()).ToDictionary(k => k.Sha, v => v);
-            _ArrayOfCommits = _provider.GetAllFromHead().OrderBy(a => Guid.NewGuid()).ToArray();
+            _ListOfCommits = _provider.GetAllFromHead().OrderBy(a => Guid.NewGuid()).ThenByDescending(a => a.Sha).ToList();
+            _DictionaryListOfCommits = _ListOfCommits.OrderBy(a => Guid.NewGuid()).ThenByDescending(a => a.Sha).ToDictionary(k => k.Sha, v => v);
+            _ArrayOfCommits = _provider.GetAllFromHead().OrderBy(a => Guid.NewGuid()).ThenByDescending(a => a.Sha).ToArray();
 
             Console.WriteLine("Number of elements: " + _ListOfCommits.Count);
         }
@@ -50,7 +50,7 @@ namespace FastProtoProject
         public void RunDictionaryBenchmark_sexi()
         {
             LinkBuilder builder = new LinkBuilder();
-            builder.BuildSexiLinqChain(_ListOfCommits);
+            builder.Build_ClassicApproach_WithToList(_ListOfCommits);
         }
 
         [Benchmark]
