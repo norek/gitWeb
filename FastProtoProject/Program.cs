@@ -20,9 +20,9 @@ namespace FastProtoProject
         private static Stopwatch stopwatch = new Stopwatch();
         static void Main(string[] args)
         {
+
             var summary = BenchmarkRunner.Run<LinkCollectionBenchmark>();
-            //using (var repo = new Repository(@"C:\Projects\Own\git_test_repo"))
-            //using (var repo = new Repository(@"C:\Projects\Taksonomia"))
+            //var summary = BenchmarkRunner.Run<LinkPreparationDataBenchmark>();
             //{
             //    ////stopwatch.Start();
             //ICommitProvider provider = new CommitProvider(repo);

@@ -12,8 +12,8 @@ using Commit = gitWeb.Core.Features.Commit.Commit;
 
 namespace FastProtoProject
 {
-    [MemoryDiagnoser]
-    [InliningDiagnoser]
+    //[MemoryDiagnoser]
+    //[InliningDiagnoser]
     public class LinkCollectionBenchmark : IDisposable
     {
         private ICommitProvider _provider;
@@ -25,57 +25,56 @@ namespace FastProtoProject
 
         public LinkCollectionBenchmark()
         {
-            _repository = new Repository(@"C:\Projects\Taksonomia");
+            _repository = new Repository(@"C:\Projects\roslyn\roslyn");
             _provider = new CommitProvider(_repository);
         }
 
         [Setup]
         public void SetUpCommits()
         {
-            _ListOfCommits = _provider.GetAllFromHead().OrderBy(a => Guid.NewGuid()).ThenByDescending(a => a.Sha).ToList();
-            _DictionaryListOfCommits = _ListOfCommits.OrderBy(a => Guid.NewGuid()).ThenByDescending(a => a.Sha).ToDictionary(k => k.Sha, v => v);
-            _ArrayOfCommits = _provider.GetAllFromHead().OrderBy(a => Guid.NewGuid()).ThenByDescending(a => a.Sha).ToArray();
-
-            Console.WriteLine("Number of elements: " + _ListOfCommits.Count);
+            _ListOfCommits = _provider.GetAllFromHead().ToList();
+            _DictionaryListOfCommits = _provider.GetAllFromHead().ToDictionary(k => k.Sha, v => v);
+            _ArrayOfCommits = _provider.GetAllFromHead().OrderByDescending(d => d.Date).ToArray();
         }
 
+
         [Benchmark(Baseline = true)]
-        public void RunClassicLinqApproach()
+        public void Run_LinqApproach()
         {
             LinkBuilder builder = new LinkBuilder();
             builder.BuildNoOptimalizedLinq(_ListOfCommits);
         }
 
         [Benchmark]
-        public void RunDictionaryBenchmark_sexi()
-        {
-            LinkBuilder builder = new LinkBuilder();
-            builder.Build_ClassicApproach_WithToList(_ListOfCommits);
-        }
-
-        [Benchmark]
-        public void RunDictionaryBenchmark()
+        public void Run_DictionaryApproach()
         {
             LinkBuilder builder = new LinkBuilder();
             builder.Build(_DictionaryListOfCommits);
         }
 
         [Benchmark]
-        public void RunDictionaryArrayLinq()
+        public void Run_ArrayApproach_WithLinq()
         {
             LinkBuilder builder = new LinkBuilder();
             builder.Build_On_Array_WithLinq(_ArrayOfCommits);
         }
 
         [Benchmark]
-        public void RunDictionaryArrayFor()
+        public void Run_ArrayApproach_WithForLoopSearching()
         {
             LinkBuilder builder = new LinkBuilder();
             builder.BuildOnArray_ForLoop(_ArrayOfCommits);
         }
 
         [Benchmark]
-        public void RunDictionaryArrayFind()
+        public void Run_ArrayApproach_WithForLoopSearching2()
+        {
+            LinkBuilder builder = new LinkBuilder();
+            builder.BuildOnArray_ForLoop2(_ArrayOfCommits);
+        }
+
+        [Benchmark]
+        public void Run_ArrayApproach_WithArrayFindAllMethod()
         {
             LinkBuilder builder = new LinkBuilder();
             builder.BuildNoOptimalizedLinqOnArrayFind(_ArrayOfCommits);
@@ -87,3 +86,4 @@ namespace FastProtoProject
         }
     }
 }
+

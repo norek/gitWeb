@@ -102,7 +102,6 @@ namespace gitWeb.Core.GraphBuilder
         {
             List<Link> links = new List<Link>();
             List<Commit> inetrCommits = new List<Commit>();
-
             for (int index = 0; index < commits.Length; index++)
             {
                 var currentCommit = commits[index];
@@ -111,7 +110,7 @@ namespace gitWeb.Core.GraphBuilder
                 {
                     var parentSha = currentCommit.Parents[i];
 
-                    for (int j = 0; j < commits.Length; j++)
+                    for (int j = index; j < commits.Length; j++)
                     {
                         var parent = commits[j];
 
@@ -122,8 +121,87 @@ namespace gitWeb.Core.GraphBuilder
                         }
                     }
                 }
+            }
 
-               
+            return links;
+        }
+
+        public List<Link> BuildOnArray_ForLoop2(Commit[] commits)
+        {
+            List<Link> links = new List<Link>();
+            List<Commit> inetrCommits = new List<Commit>();
+
+            for (int index = 0; index < commits.Length; index++)
+            {
+                var currentCommit = commits[index];
+
+                if (currentCommit.Parents.Count == 0)
+                {
+                }
+                else if (currentCommit.Parents.Count == 1)
+                {
+                    var parentSha = currentCommit.Parents[0];
+
+                    for (int j = index; j < commits.Length; j++)
+                    {
+                        var parent = commits[j];
+
+                        if (parent.Sha == parentSha)
+                        {
+                            CreateLinks(currentCommit, parent, links, inetrCommits);
+                            break;
+                        }
+                    }
+                }
+                else if (currentCommit.Parents.Count == 2)
+                {
+                    var parentSha = currentCommit.Parents[0];
+                    var parentSha1 = currentCommit.Parents[1];
+                    bool handled1 = false;
+                    bool handled2 = false;
+
+                    for (int j = index; j < commits.Length; j++)
+                    {
+                        var parent = commits[j];
+
+                        if (parent.Sha == parentSha)
+                        {
+                            CreateLinks(currentCommit, parent, links, inetrCommits);
+                            handled1 = true;
+                            continue;
+                        }
+
+                        if (parent.Sha == parentSha1)
+                        {
+                            CreateLinks(currentCommit, parent, links, inetrCommits);
+                            handled2 = true;
+                            continue;
+                        }
+
+                        if (handled1 && handled2)
+                        {
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < currentCommit.Parents.Count; i++)
+                    {
+                        var parentSha = currentCommit.Parents[i];
+
+                        for (int j = index; j < commits.Length; j++)
+                        {
+                            var parent = commits[j];
+
+                            if (parent.Sha == parentSha)
+                            {
+                                CreateLinks(currentCommit, parent, links, inetrCommits);
+                                break;
+                            }
+                        }
+                    }
+                }
             }
             return links;
         }
