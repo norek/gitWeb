@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gitWeb.Tests", "gitWeb.Tests\gitWeb.Tests.csproj", "{B557DF01-BC31-41AE-AC0F-DA1BFC8AE815}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gitWeb.IntegrationTests", "gitWeb.IntegrationTests\gitWeb.IntegrationTests.csproj", "{8131C537-FE57-4776-AA43-6ED7BE93D6A0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gitWeb.Core", "gitWeb.Core\gitWeb.Core.csproj", "{0F610247-8F62-48FB-BF64-55772763678B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{41C2D1B9-8DF3-4033-8E20-50FDD21CED3F}"
@@ -25,10 +23,6 @@ Global
 		{B557DF01-BC31-41AE-AC0F-DA1BFC8AE815}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B557DF01-BC31-41AE-AC0F-DA1BFC8AE815}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B557DF01-BC31-41AE-AC0F-DA1BFC8AE815}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8131C537-FE57-4776-AA43-6ED7BE93D6A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8131C537-FE57-4776-AA43-6ED7BE93D6A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8131C537-FE57-4776-AA43-6ED7BE93D6A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8131C537-FE57-4776-AA43-6ED7BE93D6A0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0F610247-8F62-48FB-BF64-55772763678B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0F610247-8F62-48FB-BF64-55772763678B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F610247-8F62-48FB-BF64-55772763678B}.Release|Any CPU.ActiveCfg = Release|Any CPU
