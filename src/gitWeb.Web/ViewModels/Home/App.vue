@@ -68,9 +68,8 @@ export default {
     },
     computed: {
         showCommitDetails() {
-            console.log("showCommit details")
             var selectedCommit = this.$store.state.commitArea.selectedCommit;
-            return selectedCommit !== undefined && selectedCommit.sha != "";;
+            return selectedCommit.message != "unCommitedChanges";
         }
     },
     beforeMount() {

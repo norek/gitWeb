@@ -20,8 +20,9 @@ namespace gitWeb.Core.GraphBuilder
         {
         }
 
-        public void Build(Commit[] commits)
+        public Commit[] Build(Commit[] commits)
         {
+            //TODO:Temporary lame implementation
             Stopwatch diagnostic = new Stopwatch();
             diagnostic.Start();
             AssignParents(commits);
@@ -34,13 +35,24 @@ namespace gitWeb.Core.GraphBuilder
             Debug.WriteLine("     CreateMainPath: " + diagnostic.ElapsedMilliseconds);
 
             diagnostic.Restart();
-            //Dictionary<string,Commit> vrlDictionaryOfCommits = new Dictionary<string, Commit[]>();
-            //vrlDictionaryOfCommits = commits.ToDictionary(s => s.Sha, v => v);
             AssignParentColumn(commits[0], commits.ToList());
             diagnostic.Stop();
             Debug.WriteLine("AssignParentColumn: " + diagnostic.ElapsedMilliseconds);
             Debug.WriteLine("commits " + commits.Length);
             Debug.WriteLine("iterations " + iter);
+
+            var unCommitedChangesNode = new Commit() { Message = "unCommitedChanges" };
+            unCommitedChangesNode.SetHIndex(1);
+            unCommitedChangesNode.SetVIndex(0);
+            unCommitedChangesNode.Sha = Guid.NewGuid().ToString().Replace("-", "");
+            unCommitedChangesNode.Parents = new List<string>(1) { commits[0].Sha };
+            unCommitedChangesNode.Name = "sx";
+            unCommitedChangesNode.Date = DateTime.Now;
+            var newList = commits.ToList();
+
+            newList.Insert(0, unCommitedChangesNode);
+
+            return newList.ToArray();
         }
 
         private void AssignParents(Commit[] commits)
@@ -78,7 +90,7 @@ namespace gitWeb.Core.GraphBuilder
                 {
                     if (i == 0)
                     {
-                        currParent.SetHIndex(commit.HIndex,commit.ColumnInternalIndex);
+                        currParent.SetHIndex(commit.HIndex, commit.ColumnInternalIndex);
                         currParent.skipped = false;
 
                     }
@@ -95,7 +107,7 @@ namespace gitWeb.Core.GraphBuilder
                         currParent.skipped = false;
 
                         dynamic freeIndex = hIndexProvider.GetFreeIndex(currParent.Date);
-                        currParent.SetHIndex(freeIndex.Id,freeIndex.Index);
+                        currParent.SetHIndex(freeIndex.Id, freeIndex.Index);
                     }
                 }
                 else
@@ -109,19 +121,6 @@ namespace gitWeb.Core.GraphBuilder
                 AssignParentColumn(currParent, commits);
 
             }
-
-            ////for (var i = commit.CommitParents.Length; i-- > 0;)
-            //for (var i = 0; i < commit.CommitParents.Length; i++)
-            //{
-                
-            //    var commitParent = commit.CommitParents[i];
-
-            //    if (commitParent.skipped)
-            //    {
-            //        continue;
-            //    }
-
-            //}
         }
 
         private void CreateMainPath(Commit currentCommit)
@@ -136,9 +135,7 @@ namespace gitWeb.Core.GraphBuilder
             {
                 CreateMainPath(currentCommit.CommitParents[0]);
             }
-
         }
-
     }
 
 }
