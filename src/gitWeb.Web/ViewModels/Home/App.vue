@@ -1,7 +1,6 @@
 // app.vue
 <template>
 <div id="main">
-
     <div class="container-fluid">
         <nav class="navbar navbar-default panelBlade">
             <div class="container-fluid">
@@ -10,11 +9,11 @@
                         <label>gitWeb</label>
                     </a>
                 </div>
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">Messages</a></li>
-                </ul> </div>
+                <div>
+                  <headerMenu/>
+                </div>
+            </div>
+
         </nav>
         <div class="row">
             <div class="col-md-2">
@@ -36,8 +35,8 @@
                 </div>
             </div>
         </div>
-        </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -49,6 +48,7 @@ import fileChanges from './components/fileChanges.vue'
 import graph from './components/graph.vue'
 import branches from './components/branches.vue'
 import tags from './components/tags.vue'
+import headerMenu from './components/headerMenu.vue'
 import * as types from './store/types'
 
 function checkForReporitoryStatusUpate(repoStatusFunction) {
@@ -64,7 +64,8 @@ export default {
         'commitForm': commitForm,
         graph,
         branches,
-        tags
+        tags,
+        headerMenu
     },
     computed: {
         showCommitDetails() {
@@ -73,7 +74,7 @@ export default {
         }
     },
     beforeMount() {
-      console.log("xxx");
+        console.log("xxx");
         var fetchFunction = () => this.$store.dispatch(types.FETCH_REPOSITORY_STATUS);
 
         fetchFunction().then(() => checkForReporitoryStatusUpate(fetchFunction));
