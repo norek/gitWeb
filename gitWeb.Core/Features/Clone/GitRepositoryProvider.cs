@@ -24,9 +24,9 @@ namespace gitWeb.Core.Features.Clone
             if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(url));
             if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
 
-            string repoPath = Repository.Clone(url, path);
+            //string repoPath = Repository.Clone(url, path);
 
-            _repositorySettingsProvider.SaveRepositoryPath(repoPath);
+            //_repositorySettingsProvider.SaveRepositoryPath(repoPath);
         }
     }
 }

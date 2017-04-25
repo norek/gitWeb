@@ -65,6 +65,7 @@
     <Compile Include="Features\Configuration\GitConfigurationProvider.cs" />
     <Compile Include="Features\Configuration\IConfigurationRepository.cs" />
     <Compile Include="Features\Configuration\RepositoryPathValdiator.cs" />
+    <Compile Include="Features\Repository\DirectoryProvider.cs" />
     <Compile Include="Features\Stage\FileChange.cs" />
     <Compile Include="Features\Stage\FileChangeProvider.cs" />
     <Compile Include="Features\Stage\IFileChangeProvider.cs" />

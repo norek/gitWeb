@@ -1,4 +1,5 @@
 import * as stagingAPI from '../../api/staging';
+import * as explorerProvider from '../../api/explorerProvider';
 import * as types from '../types';
 import * as enums from '../../Enums/repositoryEnum';
 
@@ -6,7 +7,8 @@ const state = {
     unstagedFiles: [],
     stagedFiles: [],
     fileChanges: [],
-    repositoryStatus: []
+    repositoryStatus: [],
+    directoryList:[]
 }
 
 const getters = {
@@ -26,8 +28,14 @@ const actions = {
                 dispatch(types.FETCH_REPOSITORY_STATUS);
             });
     },
-
-    FETCH_FILE_CHANGES({ dispatch,commit },filePath) {
+    GET_DIRECTORIES({commit},path){
+      explorerProvider
+          .get_directory_from_path(path)
+          .then((directories) => {
+              commit('ASSIGN_DIRECTORIES',directories);
+          });
+    }
+    ,FETCH_FILE_CHANGES({ dispatch,commit },filePath) {
         return stagingAPI
             .getListOfHunks(filePath)
             .then((changes) => {
@@ -63,6 +71,9 @@ const mutations = {
     },
     APPLY_FILE_CHANGES(state,changes){
         state.fileChanges = changes;
+    },
+    ASSIGN_DIRECTORIES(state,directories){
+      state.directoryList = directories;
     }
 }
 
