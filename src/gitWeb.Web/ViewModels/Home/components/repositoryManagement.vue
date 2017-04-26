@@ -4,35 +4,27 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Map repository</h4>
+                <h4 class="modal-title" id="myModalLabel">GITWEB SETTINGS</h4>
             </div>
             <div class="modal-body">
-                <button v-show="showBackButton" v-on:click="back()">back</button>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="directory in directoryList" @click="selectDirectory(directory)">
-                            <td>
-                                <div>
-                                    <i class="glyphicon glyphicon-folder-open"></i>
-                                    <label>{{ directory.path }}</label>
-                                </div>
-                            </td>
-                            <td class="text-right" v-if="directory.mapped == false">
-                                <span class="glyphicon glyphicon-bookmark"></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div id="mapParams">
-                    <label>{{selectedDirectory.path}}</label>
-                    <button type="button" class="btn btn-success">MAP REPOSITORY</button>
-                </div>
 
+                <ul class="nav nav-tabs" id="tabContent">
+                    <li class="active"><a href="#github-connect" data-toggle="tab">Github connect</a></li>
+                    <li><a href="#local-mapping" data-toggle="tab">Local mapping</a></li>
+                    <li><a href="#settings" data-toggle="tab">Settings</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="github-connect">
+                        <h2> github-connect</h2>
+                    </div>
+                    <div class="tab-pane" id="local-mapping">
+                        <repositoryMapper></repositoryMapper>
+                    </div>
+                    <div class="tab-pane" id="settings">
+                        <h2>here are settings !</h2>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -44,74 +36,23 @@
 
 
 <script>
-import * as explorerApi from '../api/explorerProvider';
+import repositoryMapper from './repositoryMapper.vue'
 
-const rootPath = 'C:/';
 
 export default {
     data() {
         return {
-            selectedDirectory: {
-                path: rootPath,
-                mapped: false
-            },
-            rootDirectory: rootPath
+            showModal: false
         }
     },
-    computed: {
-        directoryList() {
-            return this.$store.state.stagingArea.directoryList;
-        },
-        showBackButton() {
-            return this.rootDirectory != rootPath;
-        }
-    },
-    methods: {
-        getDirectory(parentDirectory) {
-            this.$store.dispatch('GET_DIRECTORIES', parentDirectory);
-            this.rootDirectory = parentDirectory;
-        },
-        selectDirectory(directory) {
-            this.getDirectory(directory.path);
-            this.selectedDirectory = directory;
-        },
-        back() {
-            let lastSelectorIndex = this.rootDirectory.lastIndexOf('\\');
-            let parentDirectory = '';
+    computed: {},
+    methods: {},
+    components: {
+        repositoryMapper
 
-            if (lastSelectorIndex > 0) {
-                parentDirectory = this.rootDirectory.substring(0, lastSelectorIndex);
-            } else {
-                parentDirectory = rootPath;
-            }
-
-            this.getDirectory(parentDirectory);
-        }
-    },
-    destroyed() {
-        this.$store.commit('ASSIGN_DIRECTORIES', []);
-    },
-    mounted() {
-        this.$nextTick(function() {
-            this.$store.dispatch('GET_DIRECTORIES', rootPath);
-        }.bind(this));
     }
 }
 </script>
 
-<style lang="scss" scoped>@import '../shared/variables.scss';
 
-.table {
-    color: $panel-header-color;
-}
-.glyphicon-folder-open {
-    margin-right: 0.2em;
-}
-#mapParams button {
-    float: right;
-}
-,
-label {
-    color: $panel-header-color;
-}
-</style>
+<style lang="scss" scoped>@import '../shared/variables.scss';</style>
