@@ -7,12 +7,11 @@
                 <h4 class="modal-title" id="myModalLabel">Map repository</h4>
             </div>
             <div class="modal-body">
+                <button v-show="showBackButton" v-on:click="back()">back</button>
                 <table class="table">
-                    <!-- <caption>{{ path }}</caption> -->
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <!-- <th class="text-right"><button class="btn btn-default btn-xs" @click="goBack()" v-if="path !== '/'">Go Back</button></th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -47,29 +46,46 @@
 <script>
 import * as explorerApi from '../api/explorerProvider';
 
+const rootPath = 'C:/';
+
 export default {
     data() {
         return {
             selectedDirectory: {
-                path: 'C:/',
+                path: rootPath,
                 mapped: false
-            }
+            },
+            rootDirectory: rootPath
         }
     },
     computed: {
         directoryList() {
-            return this.$store.state.stagingArea.directoryList
+            return this.$store.state.stagingArea.directoryList;
         },
+        showBackButton() {
+            return this.rootDirectory != rootPath;
+        }
     },
     methods: {
         getDirectory(parentDirectory) {
             this.$store.dispatch('GET_DIRECTORIES', parentDirectory);
+            this.rootDirectory = parentDirectory;
         },
         selectDirectory(directory) {
-            if (!directory.mapped) {
-                this.selectedDirectory = directory;
-                this.getDirectory(directory.path);
+            this.getDirectory(directory.path);
+            this.selectedDirectory = directory;
+        },
+        back() {
+            let lastSelectorIndex = this.rootDirectory.lastIndexOf('\\');
+            let parentDirectory = '';
+
+            if (lastSelectorIndex > 0) {
+                parentDirectory = this.rootDirectory.substring(0, lastSelectorIndex);
+            } else {
+                parentDirectory = rootPath;
             }
+
+            this.getDirectory(parentDirectory);
         }
     },
     destroyed() {
@@ -77,7 +93,7 @@ export default {
     },
     mounted() {
         this.$nextTick(function() {
-            this.$store.dispatch('GET_DIRECTORIES', 'C:/');
+            this.$store.dispatch('GET_DIRECTORIES', rootPath);
         }.bind(this));
     }
 }
