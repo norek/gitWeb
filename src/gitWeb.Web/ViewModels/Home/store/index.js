@@ -5,6 +5,7 @@ import * as mutations from './mutations'
 import stagingArea from './modules/stagingArea'
 import commitArea from './modules/commitArea'
 import branchArea from './modules/branchArea';
+import repositoryArea from './modules/repositoryArea';
 
 Vue.use(Vuex);
 
@@ -13,7 +14,8 @@ export default new Vuex.Store({
     modules: {
         stagingArea,
         commitArea,
-        branchArea
+        branchArea,
+        repositoryArea
     },
     actions,
     mutations

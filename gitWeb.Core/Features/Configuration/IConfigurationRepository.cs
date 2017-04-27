@@ -2,7 +2,7 @@ namespace gitWeb.Core.Features.Configuration
 {
     public interface IConfigurationRepository
     {
-        void SavePath(string path);
+        void SetRepository(string path);
         string LoadPath();
 
         string[] LoadMappedRepositories();

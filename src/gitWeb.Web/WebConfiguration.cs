@@ -11,20 +11,26 @@ namespace gitWeb.Web
     {
         private static string _repositoryPathSection = "repositoryPath";
 
-        public void SavePath(string path)
+        public void SetRepository(string path)
         {
-            WebConfigurationManager.AppSettings[_repositoryPathSection] = path;
+            var repositories = WebConfigurationManager.AppSettings[_repositoryPathSection].Split(';').ToList();
+
+            if (repositories.Contains(path)) return;
+
+            repositories.Add(path);
+
+            WebConfigurationManager.AppSettings[_repositoryPathSection] = string.Join(";", repositories);
         }
 
         public string LoadPath()
         {
-            return WebConfigurationManager.AppSettings[_repositoryPathSection];
+            return WebConfigurationManager.AppSettings[_repositoryPathSection].Split(';').FirstOrDefault();
         }
 
 
         public string[] LoadMappedRepositories()
         {
-            return new[] { "C:\\Projects\\Own\\DSP\\gitWeb", "C:\\Projects\\Own\\git_test_repo" };
+            return WebConfigurationManager.AppSettings[_repositoryPathSection].Split(';');
         }
     }
 }

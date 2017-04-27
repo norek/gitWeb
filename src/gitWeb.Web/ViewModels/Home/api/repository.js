@@ -10,9 +10,9 @@ export function map_repository(repositoryPath) {
   });
 }
 
-export function load_mapped_repository(){
+export function fetch_mapped_repository(){
   return new Promise((resolve, reject) => {
-      axios.get('/api/repository/')
+      axios.get('/api/repository/mapp')
           .then(function(response) {
               resolve(response.data);
           })

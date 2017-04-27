@@ -62,7 +62,7 @@ namespace gitWeb.Web.Api
         {
             if (Repository.IsValid(path))
             {
-                _configRepository.SavePath(path);
+                _configRepository.SetRepository(path);
                 return Ok();
             }
 

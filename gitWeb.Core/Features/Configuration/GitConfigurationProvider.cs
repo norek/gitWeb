@@ -17,7 +17,7 @@ namespace gitWeb.Core.Features.Configuration
         {
             if (_repositoryPathValdiator.IsInvalid(path)) throw new ArgumentException(nameof(path));
 
-            _configRepository.SavePath(path);
+            _configRepository.SetRepository(path);
         }
 
         public string LoadRepositoryPath()

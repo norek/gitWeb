@@ -34,9 +34,11 @@ export const COMMIT = ({dispatch,state,commit}, commitMessage) => {
             }
 }
 
-export const MAP_REPOSITORY = ({dispatch,state}, repositoryPath) => {
+export const MAP_REPOSITORY = ({dispatch,commit,state}, repositoryPath) => {
  repositoryApi.map_repository(repositoryPath)
               .then(() => {
+                commit('setCurrentRepository',repositoryPath);
+                dispatch('FETCH_MAPPED_REPOSITORIES');
                 dispatch('GET_ALL_BRANCHES');
                 dispatch('FETCH_REPOSITORY_STATUS');
                 dispatch(types.GET_COMMIT_TREE_FROM_HEAD).then(() => {
