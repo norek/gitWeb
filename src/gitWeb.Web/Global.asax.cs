@@ -44,8 +44,8 @@ namespace gitWeb.Web
             builder.RegisterType<StagingAreaProvider>().As<IStagingAreaProvider>();
             builder.RegisterType<BranchProvider>().As<IBranchProvider>();
             builder.RegisterType<FileChangeProvider>().As<IFileChangeProvider>();
-            builder.RegisterType<RepositoryFactory>().AsSelf();    
-            builder.Register(c => c.Resolve<RepositoryFactory>().GetRepository()).SingleInstance();
+            builder.RegisterType<RepositoryFactory>().SingleInstance();
+            builder.Register(c => c.Resolve<RepositoryFactory>().GetRepository());
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

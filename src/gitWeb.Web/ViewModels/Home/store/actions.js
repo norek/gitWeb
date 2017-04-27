@@ -1,12 +1,13 @@
 import * as types from './types';
 import * as graphBuilder from '../features/graphBuilder';
+import * as repositoryApi from '../api/repository';
 
 export const CHECKOUT_BRANCH_All = ({dispatch,state}, branchName) => {
     dispatch(types.CHECKOUT_BRANCH, branchName)
         .then(() =>
 
         dispatch(types.GET_COMMIT_TREE_FROM_HEAD).then(() => {
-          graphBuilder.draw(state.commitArea.commitTree, []);
+          graphBuilder.draw(state.commitArea.commitTree.commits, state.commitArea.commitTree.links);
 
         }));
 }
@@ -31,4 +32,14 @@ export const COMMIT = ({dispatch,state,commit}, commitMessage) => {
                     dispatch("SET_CURRENT_COMMIT", commitInfo)
                 }
             }
+}
+
+export const MAP_REPOSITORY = ({dispatch,state}, repositoryPath) => {
+ repositoryApi.map_repository(repositoryPath)
+              .then(() => {
+                dispatch('GET_ALL_BRANCHES');
+                dispatch('FETCH_REPOSITORY_STATUS');
+                dispatch(types.GET_COMMIT_TREE_FROM_HEAD).then(() => {
+                graphBuilder.draw(state.commitArea.commitTree.commits, state.commitArea.commitTree.links);
+              })});
 }

@@ -4,5 +4,7 @@ namespace gitWeb.Core.Features.Configuration
     {
         void SavePath(string path);
         string LoadPath();
+
+        string[] LoadMappedRepositories();
     }
 }

@@ -20,5 +20,11 @@ namespace gitWeb.Web
         {
             return WebConfigurationManager.AppSettings[_repositoryPathSection];
         }
+
+
+        public string[] LoadMappedRepositories()
+        {
+            return new[] { "C:\\Projects\\Own\\DSP\\gitWeb", "C:\\Projects\\Own\\git_test_repo" };
+        }
     }
 }

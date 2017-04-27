@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace gitWeb.Core
 {
-    public class RepositoryFactory
+    public class RepositoryFactory : IDisposable
     {
-        IConfigurationRepository _configRepo;
+        readonly IConfigurationRepository _configRepo;
+        readonly Dictionary<string, Repository> repositoryContainer = new Dictionary<string, Repository>();
+        private Repository vrcRepository;
 
         public RepositoryFactory(IConfigurationRepository configRepo)
         {
@@ -20,7 +22,13 @@ namespace gitWeb.Core
         public IRepository GetRepository()
         {
             var repositoryPath = _configRepo.LoadPath();
-            return new Repository(repositoryPath);
+            vrcRepository = new Repository(repositoryPath);
+            return vrcRepository;
+        }
+
+        public void Dispose()
+        {
+
         }
     }
 }

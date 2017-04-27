@@ -23,7 +23,7 @@
     </table>
     <div id="mapParams">
         <label>{{selectedDirectory.path}}</label>
-        <button type="button" class="btn btn-success">MAP REPOSITORY</button>
+        <button type="button" class="btn btn-success" v-on:click="mapRepository()">MAP REPOSITORY</button>
     </div>
 </div>
 </template>
@@ -59,6 +59,9 @@ export default {
         selectDirectory(directory) {
             this.getDirectory(directory.path);
             this.selectedDirectory = directory;
+        },
+        mapRepository(){
+          this.$store.dispatch('MAP_REPOSITORY',this.selectedDirectory.path);
         },
         back() {
             let lastSelectorIndex = this.rootDirectory.lastIndexOf('\\');

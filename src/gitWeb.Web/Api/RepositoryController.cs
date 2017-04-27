@@ -4,8 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web.Configuration;
 using System.Web.Http;
+using Autofac;
+using gitWeb.Core.Features.Configuration;
 using gitWeb.Core.Features.Repository;
+using LibGit2Sharp;
 
 namespace gitWeb.Web.Api
 {
@@ -13,10 +17,12 @@ namespace gitWeb.Web.Api
     public class RepositoryController : ApiController
     {
         private readonly IStagingAreaProvider _stagingAreaProvider;
+        private readonly IConfigurationRepository _configRepository;
 
-        public RepositoryController(IStagingAreaProvider stagingAreaProvider)
+        public RepositoryController(IStagingAreaProvider stagingAreaProvider, IConfigurationRepository configRepository)
         {
             _stagingAreaProvider = stagingAreaProvider;
+            _configRepository = configRepository;
         }
 
         [HttpGet]
@@ -48,6 +54,27 @@ namespace gitWeb.Web.Api
         {
             _stagingAreaProvider.UnStage(filePath);
             return Ok();
+        }
+
+        [HttpPost]
+        [Route("map")]
+        public IHttpActionResult MapRepository(string path)
+        {
+            if (Repository.IsValid(path))
+            {
+                _configRepository.SavePath(path);
+                return Ok();
+            }
+
+            return NotFound();
+        }
+
+        [HttpGet]
+        [Route("mapp")]
+        public IHttpActionResult GetMappedRepository()
+        {
+            var mappedRepositories = _configRepository.LoadMappedRepositories();
+            return Ok(mappedRepositories);
         }
     }
 }
