@@ -37,6 +37,16 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>@import '../shared/variables.scss';
 
-</style>
+.dropdown {
+    display: inline-block;
+    height: 35px;
+    margin: 0;
+    button {
+        border-radius: 0;
+        color: white;
+        background-color: $selected-row-color;
+        border-style: none;
+    }
+}</style>

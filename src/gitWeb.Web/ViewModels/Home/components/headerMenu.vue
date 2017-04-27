@@ -1,13 +1,15 @@
 <template>
 <div>
-    <div>
+    <div id="headerButtons">
         <button type="button" id="repomg" data-toggle="modal" data-target="#myModal">
-          <span class="glyphicon glyphicon-home"></span>
+          <span class="glyphicon glyphicon-cog"></span>
         </button>
-        <modal></modal>
+        <dropdown id="dropdown"></dropdown>
+
     </div>
 
-    <dropdown></dropdown>
+    <modal></modal>
+
 </div>
 </template>
 
@@ -35,18 +37,15 @@ export default {
 #repomg {
     height: 35px;
     width: 35px;
-    // position: absolute;
-    // margin: 0.5em;
-    // color: white;
-    // background-color: $selected-row-color;
+    color: white;
+    background-color: $selected-row-color;
     border-style: none;
+
+    display: inline-block;
 }
 
-.dropdown {
-    height: 35px;
-    // float: right;
-    // color: red;
-    // position: absolute;
-    // background: $selected-row-color;
+#headerButtons{
+  display: inline-block;
 }
+
 </style>
