@@ -10,9 +10,12 @@ namespace gitWeb.Web
     public class WebConfig : IConfigurationRepository
     {
         private static string _repositoryPathSection = "repositoryPath";
+        private static string _currentRepository = "currentRepository";
 
         public void SetRepository(string path)
         {
+            WebConfigurationManager.AppSettings[_currentRepository] = path;
+
             var repositories = WebConfigurationManager.AppSettings[_repositoryPathSection].Split(';').ToList();
 
             if (repositories.Contains(path)) return;
@@ -24,7 +27,18 @@ namespace gitWeb.Web
 
         public string LoadPath()
         {
-            return WebConfigurationManager.AppSettings[_repositoryPathSection].Split(';').FirstOrDefault();
+            var currentRepository = WebConfigurationManager.AppSettings[_currentRepository];
+
+            if (!string.IsNullOrEmpty(currentRepository)) return currentRepository;
+
+            var repository = GetMappedRepositories().First();
+            WebConfigurationManager.AppSettings[_currentRepository] = repository;
+            return repository;
+        }
+
+        private static string[] GetMappedRepositories()
+        {
+            return WebConfigurationManager.AppSettings[_repositoryPathSection].Split(';');
         }
 
 
