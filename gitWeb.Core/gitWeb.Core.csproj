@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Features\Branch\BranchProvider.cs" />
     <Compile Include="Features\Clone\GitRepositoryProvider.cs" />
+    <Compile Include="Features\Commit\Commit.cs" />
     <Compile Include="Features\Commit\CommitDetail.cs" />
     <Compile Include="Features\Commit\CommitFile.cs" />
     <Compile Include="Features\Commit\CommitNotFoundException.cs" />

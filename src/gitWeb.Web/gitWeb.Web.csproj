@@ -149,8 +149,8 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="treeImpl.html" />
     <Content Include="Web.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
@@ -161,6 +161,7 @@
     <Compile Include="Api\FileChangesController.cs" />
     <Compile Include="Api\FileController.cs" />
     <Compile Include="Api\RepositoryController.cs" />
+    <Compile Include="App_Start\ExceptionFilter.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />

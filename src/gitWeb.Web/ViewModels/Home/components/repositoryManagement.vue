@@ -55,4 +55,20 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>@import '../shared/variables.scss';</style>
+<style lang="scss" scoped>@import '../shared/variables.scss';
+
+.modal-content{
+  background-color: $primary-back-color;
+  border-radius: 0;
+
+  button{
+    border-radius: 0;
+  }
+
+}
+
+.active{
+  
+}
+
+</style>
