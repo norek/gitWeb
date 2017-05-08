@@ -9,6 +9,9 @@ const actions = {
     FETCH_MAPPED_REPOSITORIES({commit}) {
         repositoryApi.fetch_mapped_repository()
             .then(repositories => commit('setMappedRepositories', repositories));
+    },
+    CLONE_REPOSITORY({},cloneParams){
+      return repositoryApi.clone_repository(cloneParams);
     }
 }
 

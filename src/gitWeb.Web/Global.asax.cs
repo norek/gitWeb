@@ -17,6 +17,7 @@ using gitWeb.Core;
 using gitWeb.Core.Features.Configuration;
 using gitWeb.Core.Features.Stage;
 using gitWeb.Core.Features.Branch;
+using gitWeb.Core.Features.Clone;
 using gitWeb.Web.App_Start;
 
 namespace gitWeb.Web
@@ -47,8 +48,9 @@ namespace gitWeb.Web
             builder.RegisterType<BranchProvider>().As<IBranchProvider>();
             builder.RegisterType<FileChangeProvider>().As<IFileChangeProvider>();
             builder.RegisterType<RepositoryFactory>().SingleInstance();
+            builder.RegisterType<GitRepositoryProvider>().AsSelf();
             builder.Register(c => c.Resolve<RepositoryFactory>().GetRepository()).SingleInstance();
-
+            
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
