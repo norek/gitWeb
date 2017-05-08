@@ -71,11 +71,17 @@ namespace gitWeb.Core.Features.Commit
 
         public int ColumnInternalIndex { get; private set; }
 
+        internal bool AnyChildWithZeroIndex { get; private set; }
+
         public void AddChild(Commit child)
         {
             if (!Children.ContainsKey(child.Sha))
             {
                 Children.Add(child.Sha, child);
+                if (child.HIndex == 0)
+                {
+                    AnyChildWithZeroIndex = true;
+                }
             }
 
         }

@@ -17,6 +17,7 @@ using gitWeb.Core;
 using gitWeb.Core.Features.Configuration;
 using gitWeb.Core.Features.Stage;
 using gitWeb.Core.Features.Branch;
+using gitWeb.Web.App_Start;
 
 namespace gitWeb.Web
 {
@@ -28,6 +29,7 @@ namespace gitWeb.Web
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            GlobalConfiguration.Configuration.Filters.Add(new ExceptionFilter());
 
             var builder = new ContainerBuilder();
             var config = GlobalConfiguration.Configuration;
@@ -45,7 +47,7 @@ namespace gitWeb.Web
             builder.RegisterType<BranchProvider>().As<IBranchProvider>();
             builder.RegisterType<FileChangeProvider>().As<IFileChangeProvider>();
             builder.RegisterType<RepositoryFactory>().SingleInstance();
-            builder.Register(c => c.Resolve<RepositoryFactory>().GetRepository());
+            builder.Register(c => c.Resolve<RepositoryFactory>().GetRepository()).SingleInstance();
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

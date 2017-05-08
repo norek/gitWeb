@@ -10,7 +10,6 @@ namespace gitWeb.Core.GraphBuilder
 {
     public class HIndexProvider
     {
-        //private readonly Dictionary<int, bool> _Hindex = new Dictionary<int, bool>();
         private readonly List<ColumnsReservation> _Hindex = new List<ColumnsReservation>();
         private int index = 1;
         public HIndexProvider()
@@ -19,26 +18,41 @@ namespace gitWeb.Core.GraphBuilder
         }
 
 
-        public dynamic GetFreeIndex(DateTime commitDate)
+        public ColumnsReservation GetFreeIndex(DateTime commitDate)
         {
-            var reservedColumn = _Hindex.Where(d => (d.StartDate >= commitDate && !d.EndDate.HasValue) ||
-            (d.StartDate >= commitDate && d.EndDate.Value < commitDate)).OrderByDescending(s => s.Id).First();
+            ColumnsReservation reservedColumn = null;
+            for (int i = 0; i < _Hindex.Count; i++)
+            {
+                var d = _Hindex[i];
+                if ((d.StartDate >= commitDate && !d.EndDate.HasValue) || (d.StartDate >= commitDate && d.EndDate.Value < commitDate))
+                {
+                    reservedColumn = d;
+                    break;
+                }
+            }
+
 
             index++;
             var newReservedColumn = new ColumnsReservation(index, reservedColumn.Id + 1, commitDate, null);
             _Hindex.Add(newReservedColumn);
 
-            return new { newReservedColumn.Id, newReservedColumn.Index };
+            return newReservedColumn;
         }
 
         public void ReleaseIndex(int hIndex, DateTime commitDate)
         {
-            var columnToRelease = _Hindex.Single(d => d.Index == hIndex);
-            columnToRelease.EndDate = commitDate;
+            for (int i = 0; i < _Hindex.Count; i++)
+            {
+                if (_Hindex[i].Index == hIndex)
+                {
+                    _Hindex[i].EndDate = commitDate;
+                    break;
+                }
+            }
         }
     }
 
-    internal class ColumnsReservation
+    public class ColumnsReservation
     {
         public ColumnsReservation(int index, int id, DateTime startDate, DateTime? endDate)
         {

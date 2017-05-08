@@ -21,11 +21,11 @@ namespace FastProtoProject
         {
 
             //using (var repo = new Repository(@"C:\Projects\Own\git_test_repo"))
-            using (var repo = new Repository(@"C:\Projects\Taksonomia"))
+            using (var repo = new Repository(@"C:\inPOS"))
             {
                 //stopwatch.Start();
                 ICommitProvider provider = new CommitProvider(repo);
-                Commit[] commits = provider.GetAllFromHead().Take(200).ToArray();
+                Commit[] commits = provider.GetAllFromHead().ToArray();
                 //stopwatch.StopAndLog("GetCommits");
 
                 stopwatch.Start();

@@ -30,12 +30,12 @@ namespace gitWeb.Web.Api
         {
             var commits = _commitProvider.GetAllFromHead().Take(1000);
 
-            Core.GraphBuilder.GraphBuilder builder = new Core.GraphBuilder.GraphBuilder();
+            Core.GraphBuilder.GraphBuilder builder = new GraphBuilder();
             var commitArray = commits.ToArray();
             var convertedCommits = builder.Build(commitArray);
 
             LinkBuilder linkBuilder = new LinkBuilder();
-            var links = linkBuilder.Build(convertedCommits.ToDictionary(k => k.Sha, v => v));
+            var links = linkBuilder.Build(convertedCommits.ToList());
 
             return Ok(new { commits = convertedCommits, links });
         }

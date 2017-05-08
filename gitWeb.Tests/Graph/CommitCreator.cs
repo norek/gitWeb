@@ -25,7 +25,6 @@ namespace gitWeb.Tests
             var commit = new Commit
             {
                 Sha = newSha,
-                Id = new ObjectId(newSha),
                 ParentsIds = parents.Select(p => new ObjectId(p)).ToList(),
                 Parents = parents.ToList()
             };

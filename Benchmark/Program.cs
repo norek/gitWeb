@@ -14,11 +14,18 @@ namespace Benchmark
         {
             try
             {
-                var summary = BenchmarkRunner.Run<GraphBuilderBenchmark>();
+                //var summary = BenchmarkRunner.Run<GraphBuilderBenchmark>();
+                using (GraphBuilderBenchmark s = new GraphBuilderBenchmark())
+                {
+                    s.Run();
+                }
+                //var summary = BenchmarkRunner.Run<LinkBuilderBenchmark>();
+                //LinkBuilderBenchmark s = new LinkBuilderBenchmark();
+                //s.Build();
             }
             finally
             {
-                Console.ReadLine();
+                //Console.ReadLine();
             }
         }
     }

@@ -11,6 +11,7 @@ namespace gitWeb.Web
     {
         private static string _repositoryPathSection = "repositoryPath";
         private static string _currentRepository = "currentRepository";
+        private object syncObject = new object();
 
         public void SetRepository(string path)
         {
@@ -27,13 +28,16 @@ namespace gitWeb.Web
 
         public string LoadPath()
         {
-            var currentRepository = WebConfigurationManager.AppSettings[_currentRepository];
+            lock (syncObject)
+            {
+                var currentRepository = WebConfigurationManager.AppSettings[_currentRepository];
 
-            if (!string.IsNullOrEmpty(currentRepository)) return currentRepository;
+                if (!string.IsNullOrEmpty(currentRepository)) return currentRepository;
 
-            var repository = GetMappedRepositories().First();
-            WebConfigurationManager.AppSettings[_currentRepository] = repository;
-            return repository;
+                var repository = GetMappedRepositories().First();
+                WebConfigurationManager.AppSettings[_currentRepository] = repository;
+                return repository;
+            }
         }
 
         private static string[] GetMappedRepositories()
